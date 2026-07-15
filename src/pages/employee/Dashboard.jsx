@@ -292,13 +292,13 @@ export default function EmployeeDashboard() {
   const workHoursTrendData = dailyWorkHours.length > 0
     ? dailyWorkHours.sort((a, b) => a.rawDate - b.rawDate).slice(-6)
     : [
-        { name: "Dec", hours: 7.8 },
-        { name: "Jan", hours: 8.2 },
-        { name: "Feb", hours: 8.0 },
-        { name: "Mar", hours: 8.5 },
-        { name: "Apr", hours: 9.0 },
-        { name: "May", hours: 8.3 },
-      ];
+      { name: "Dec", hours: 7.8 },
+      { name: "Jan", hours: 8.2 },
+      { name: "Feb", hours: 8.0 },
+      { name: "Mar", hours: 8.5 },
+      { name: "Apr", hours: 9.0 },
+      { name: "May", hours: 8.3 },
+    ];
 
   // 3. Upcoming Events & Holidays list
   const upcomingEvents = [
@@ -367,18 +367,6 @@ export default function EmployeeDashboard() {
             </div>
           </div>
 
-          {/* Card 2: Presence Rate (Green Theme) */}
-          <div className="bg-white border border-slate-200/50 rounded-3xl p-5 shadow-sm flex items-center gap-4 relative overflow-hidden group">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 border border-emerald-100/50 shadow-inner">
-              <User size={20} />
-            </div>
-            <div className="min-w-0">
-              <p className="text-[10px] text-slate-400 font-black uppercase tracking-wider">Leave Balance</p>
-              <p className="text-2xl font-black text-slate-800 mt-1">{leaveBalance || 18}</p>
-              <p className="text-[9px] text-emerald-600 font-bold mt-1">84.0% of total</p>
-            </div>
-          </div>
-
           {/* Card 3: Leave Balance (Orange Theme) */}
           <div className="bg-white border border-slate-200/50 rounded-3xl p-5 shadow-sm flex items-center gap-4 relative overflow-hidden group">
             <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 border border-amber-100/50 shadow-inner">
@@ -412,6 +400,18 @@ export default function EmployeeDashboard() {
               <p className="text-[10px] text-slate-400 font-black uppercase tracking-wider">New Joiners (May)</p>
               <p className="text-2xl font-black text-slate-800 mt-1">24</p>
               <p className="text-[9px] text-cyan-600 font-bold mt-1">↑ 12% from last month</p>
+            </div>
+          </div>
+
+          {/* Card 2: Presence Rate (Green Theme) */}
+          <div className="bg-white border border-slate-200/50 rounded-3xl p-5 shadow-sm flex items-center gap-4 relative overflow-hidden group">
+            <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 border border-emerald-100/50 shadow-inner">
+              <User size={20} />
+            </div>
+            <div className="min-w-0">
+              <p className="text-[10px] text-slate-400 font-black uppercase tracking-wider">Exit Employee</p>
+              <p className="text-2xl font-black text-slate-800 mt-1">{leaveBalance || 18}</p>
+              <p className="text-[9px] text-emerald-600 font-bold mt-1">84.0% of total</p>
             </div>
           </div>
         </div>
@@ -797,7 +797,7 @@ export default function EmployeeDashboard() {
                   <div key={index} className="flex gap-3 text-xs">
                     {/* Bullet line track indicator */}
                     <div className="flex flex-col items-center shrink-0">
-                      <span className={`w-2.5 h-2.5 rounded-full ${dotColor} mt-1`} />          
+                      <span className={`w-2.5 h-2.5 rounded-full ${dotColor} mt-1`} />
                       {index < recentActivities.length - 1 && (
                         <span className="w-[1.5px] bg-slate-200 grow mt-1 mb-[-4px]" />
                       )}
@@ -839,20 +839,19 @@ export default function EmployeeDashboard() {
   );
 }
 
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

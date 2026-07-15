@@ -100,7 +100,7 @@ export default function EmployeeModal({
     doe: "",
     employment_type: "1", // Default to 1 (Full-Time)
     employment_status: "Active",
-    onboarding_status: "Pending",
+    status: "Pending",
     reporting_manager: "",
     gender: "",
     marital_status: "",
@@ -178,7 +178,7 @@ export default function EmployeeModal({
         doe: employee.doe ? employee.doe.substring(0, 10) : "",
         employment_type: employee.employment_type || "1",
         employment_status: employee.employment_status || "Active",
-        onboarding_status: employee.onboarding_status || "Pending",
+        status: employee.status || "Pending",
         reporting_manager: employee.reporting_manager || "",
         gender: employee.gender || "",
         marital_status: employee.marital_status || "",
@@ -783,16 +783,29 @@ export default function EmployeeModal({
                       </select>
                     </InputWrapper>
 
-                    <InputWrapper label="Onboarding Status">
+                    <InputWrapper label="Status">
                       <select
-                        name="onboarding_status"
-                        value={formData.onboarding_status}
+                        name="status"
+                        value={formData.status}
                         onChange={handleChange}
                         className="form-select-custom"
                       >
-                        <option value="Pending">Pending</option>
-                        <option value="In Progress">In Progress</option>
-                        <option value="Completed">Completed</option>
+                        <option value="Shortlisted">Shortlisted</option>
+                        <option value="Interview Scheduled">Interview Scheduled</option>
+                        <option value="Interview Ongoing">Interview Ongoing</option>
+                        <option value="Selected">Selected</option>
+                        <option value="Rejected">Rejected</option>
+                        <option value="Offer Accepted">Offer Accepted</option>
+                        <option value="Offer Declined">Offer Declined</option>
+                        <option value="Onboarding">Onboarding</option>
+                        <option value="On Leave">On Leave</option>
+                        <option value="Probation">Probation</option>
+                        <option value="Probation Extension">Probation Extension</option>
+                        <option value="Probation Passed">Probation Passed</option>
+                        <option value="Probation Failed">Probation Failed</option>
+                        <option value="Resigned">Resigned</option>
+                        <option value="Termination">Termination</option>
+                        <option value="Ex-Employee">Ex-Employee</option>
                       </select>
                     </InputWrapper>
                   </div>
