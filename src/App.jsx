@@ -65,6 +65,7 @@ import EmployeeLeaveHistory from "./pages/employee/LeaveHistory";
 import EmployeeProfile from "./pages/employee/Profile";
 import EmployeeAttendance from "./pages/employee/Attendance";
 import EmployeePayroll from "./pages/employee/Payroll";
+import EmployeeResignation from "./pages/employee/Resignation";
 
 // Holiday//
 import Holiday from "./pages/holiday/Holiday";
@@ -133,6 +134,7 @@ function AppContent() {
     "/employee/attendance",
     "/employee/documents",
     "/employee/payroll",
+    "/employee/resignation",
   ];
 
   const hideLayout = authPages.includes(location.pathname);
@@ -318,6 +320,14 @@ function AppContent() {
           element={
             <ProtectedRoute requiredRole="employee">
               <EmployeePayroll />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/employee/resignation"
+          element={
+            <ProtectedRoute requiredRole="employee">
+              <EmployeeResignation />
             </ProtectedRoute>
           }
         />

@@ -379,7 +379,7 @@ export default function EmployeeDashboard() {
             </div>
           </div>
 
-          {/* Card 4: Absent Today (Red Theme) */}
+          {/* Card 3: Absent Today (Red Theme) */}
           <div className="bg-white border border-slate-200/50 rounded-3xl p-5 shadow-sm flex items-center gap-4 relative overflow-hidden group">
             <div className="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center shrink-0 border border-rose-100/50 shadow-inner">
               <AlertCircle size={20} />
@@ -391,7 +391,7 @@ export default function EmployeeDashboard() {
             </div>
           </div>
 
-          {/* Card 5: Work Hours Average (Blue Theme) */}
+          {/* Card 4: Work Hours Average (Blue Theme) */}
           <div className="bg-white border border-slate-200/50 rounded-3xl p-5 shadow-sm flex items-center gap-4 relative overflow-hidden group">
             <div className="w-12 h-12 rounded-2xl bg-cyan-50 text-cyan-600 flex items-center justify-center shrink-0 border border-cyan-100/50 shadow-inner">
               <Clock size={20} />
