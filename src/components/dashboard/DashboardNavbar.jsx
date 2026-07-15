@@ -112,7 +112,21 @@ export default function DashboardNavbar({ collapsed, setCollapsed }) {
   const handleLogout = async () => {
     try {
       const token = localStorage.getItem("token");
+      const loginSessionId = localStorage.getItem("login_session_id");
+
       if (token) {
+        if (loginSessionId) {
+          try {
+            await axios.put(
+              `${import.meta.env.VITE_SERVER_ADDRESS}/api/login-history/${loginSessionId}/logout`,
+              {},
+              { headers: { Authorization: `Bearer ${token}` } }
+            );
+          } catch (histErr) {
+            console.error("Logout history update error:", histErr);
+          }
+        }
+
         await axios.post(
           `${import.meta.env.VITE_SERVER_ADDRESS}/api/auth/logout`,
           {},
@@ -133,6 +147,7 @@ export default function DashboardNavbar({ collapsed, setCollapsed }) {
     localStorage.removeItem("company");
     localStorage.removeItem("company_id");
     localStorage.removeItem("employee_id");
+    localStorage.removeItem("login_session_id");
     sessionStorage.clear();
     window.location.href = "/login";
   };

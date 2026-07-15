@@ -21,7 +21,8 @@ import {
   ChevronsRight,
   ChevronRight,
   ChevronDown,
-  LogOut
+  LogOut,
+  History,
 } from "lucide-react";
 
 export default function EmployeeSidebar({ collapsed: propCollapsed, setCollapsed: propSetCollapsed }) {
@@ -116,7 +117,21 @@ export default function EmployeeSidebar({ collapsed: propCollapsed, setCollapsed
   const handleLogout = async () => {
     try {
       const token = localStorage.getItem("token");
+      const loginSessionId = localStorage.getItem("login_session_id");
+
       if (token) {
+        if (loginSessionId) {
+          try {
+            await axios.put(
+              `${import.meta.env.VITE_SERVER_ADDRESS}/api/login-history/${loginSessionId}/logout`,
+              {},
+              { headers: { Authorization: `Bearer ${token}` } }
+            );
+          } catch (histErr) {
+            console.error("Logout history update error:", histErr);
+          }
+        }
+
         await axios.post(
           `${import.meta.env.VITE_SERVER_ADDRESS}/api/auth/logout`,
           {},
@@ -137,6 +152,7 @@ export default function EmployeeSidebar({ collapsed: propCollapsed, setCollapsed
     localStorage.removeItem("company");
     localStorage.removeItem("company_id");
     localStorage.removeItem("employee_id");
+    localStorage.removeItem("login_session_id");
     sessionStorage.clear();
     window.location.href = "/login";
   };
@@ -187,6 +203,7 @@ export default function EmployeeSidebar({ collapsed: propCollapsed, setCollapsed
     { name: "Loan & Advance", path: "#loan", icon: Coins },
     { name: "Asset Management", path: "#assets", icon: Laptop },
     { name: "Document Management", path: "/employee/documents", icon: Folder },
+    { name: "Login History", path: "/employee/login-history", icon: History },
     { name: "Resignation", path: "/employee/resignation", icon: UserMinus },
     { name: "Reports & Analytics", path: "#reports", icon: BarChart3 },
     { name: "Settings", path: "#settings", icon: Settings },
@@ -362,7 +379,19 @@ export default function EmployeeSidebar({ collapsed: propCollapsed, setCollapsed
             </div>
           )}
         </div>
-
+        
+        <button
+          className={`w-full flex items-center ${collapsed ? "justify-center py-3" : "gap-3 px-4 py-3"} mt-1 rounded-xl text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-all cursor-pointer`}
+          onClick={handleLogout}
+          title="Logout"
+        >
+          <LogOut size={16} />
+          {!collapsed && (
+            <span className="text-sm font-medium">
+              Logout
+            </span>
+          )}
+        </button>
 
       </div>
 

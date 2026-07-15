@@ -44,6 +44,28 @@ export default function Login() {
   //   }
   // }, []);
 
+  const getDeviceInfo = () => {
+    const ua = navigator.userAgent;
+    let browser = "Unknown";
+    let os = "Unknown";
+    
+    if (ua.includes("Firefox")) browser = "Firefox";
+    else if (ua.includes("SamsungBrowser")) browser = "Samsung Browser";
+    else if (ua.includes("Opera") || ua.includes("OPR")) browser = "Opera";
+    else if (ua.includes("Trident") || ua.includes("MSIE")) browser = "Internet Explorer";
+    else if (ua.includes("Edge") || ua.includes("Edg")) browser = "Edge";
+    else if (ua.includes("Chrome")) browser = "Chrome";
+    else if (ua.includes("Safari")) browser = "Safari";
+    
+    if (ua.includes("Win")) os = "Windows";
+    else if (ua.includes("Mac")) os = "MacOS";
+    else if (ua.includes("X11") || ua.includes("Linux")) os = "Linux";
+    else if (ua.includes("Android")) os = "Android";
+    else if (ua.includes("like Mac OS")) os = "iOS";
+    
+    return { browser, os, device_info: ua };
+  };
+
   // ================= LOGIN HANDLER =================
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -82,14 +104,35 @@ export default function Login() {
         localStorage.setItem("employee", JSON.stringify(employee));
         localStorage.setItem("company_id", employee.company_id);
         localStorage.setItem("employee_id", employee.id);
-        
-        // ================= REDIRECT AFTER SUCCESS =================
-        navigate("/employee/dashboard", { replace: true });
       } else {
         localStorage.setItem("company", JSON.stringify(company));
         localStorage.setItem("company_id", company.id);
-        
-        // ================= REDIRECT AFTER SUCCESS =================
+      }
+
+      // ================= LOG HISTORY =================
+      try {
+        const { browser, os, device_info } = getDeviceInfo();
+        const historyRes = await axios.post(`${import.meta.env.VITE_SERVER_ADDRESS}/api/login-history`, {
+          user_id: role === "employee" ? employee.id : null,
+          ipaddress: "Unknown",
+          device_info,
+          os,
+          browser,
+          longitude: coords.longitude,
+          lattitude: coords.latitude,
+          login_status: "success",
+          session_id: token,
+        });
+        if (historyRes.data?.login_history?.id) {
+          localStorage.setItem("login_session_id", historyRes.data.login_history.id);
+        }
+      } catch (histErr) {
+        console.error("Failed to log history:", histErr);
+      }
+
+      if (role === "employee") {
+        navigate("/employee/dashboard", { replace: true });
+      } else {
         navigate("/dashboard", { replace: true });
       }
     } catch (err) {

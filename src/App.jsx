@@ -77,6 +77,10 @@ import LeaveType from "./pages/leave management/LeaveType";
 import LeaveRequest from "./pages/leave management/LeaveRequest";
 import LeaveFeature from "./pages/features/Leave";
 
+// Login History //
+import LoginHistory from "./pages/LoginHistory";
+import EmployeeLoginHistory from "./pages/employee/LoginHistory";
+
 // ================= PROTECTED ROUTE =================
 function ProtectedRoute({ children, requiredRole }) {
   const token = localStorage.getItem("token");
@@ -135,6 +139,7 @@ function AppContent() {
     "/employee/documents",
     "/employee/payroll",
     "/employee/resignation",
+    "/employee/login-history",
   ];
 
   const hideLayout = authPages.includes(location.pathname);
@@ -448,6 +453,26 @@ function AppContent() {
           element={
             <ProtectedRoute requiredRole="company">
               <LeaveRequest />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* ================= LOGIN HISTORY ================= */}
+        <Route
+          path="/login-history"
+          element={
+            <ProtectedRoute requiredRole="company">
+              <LoginHistory />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* ================= EMPLOYEE LOGIN HISTORY ================= */}
+        <Route
+          path="/employee/login-history"
+          element={
+            <ProtectedRoute requiredRole="employee">
+              <EmployeeLoginHistory />
             </ProtectedRoute>
           }
         />

@@ -17,6 +17,7 @@ import {
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
+  History,
 } from "lucide-react";
 
 export default function Sidebar({ collapsed: propCollapsed, setCollapsed: propSetCollapsed }) {
@@ -73,6 +74,8 @@ export default function Sidebar({ collapsed: propCollapsed, setCollapsed: propSe
     "/payroll/payslip",
   ];
 
+  const loginHistoryRoutes = ["/login-history"];
+
   const [expandedMenu, setExpandedMenu] = useState(() => {
     const isCollapsed = propCollapsed !== undefined ? propCollapsed : (localStorage.getItem("sidebar_collapsed") === "true");
     if (isCollapsed) return null;
@@ -101,6 +104,7 @@ export default function Sidebar({ collapsed: propCollapsed, setCollapsed: propSe
   const isHolidayActive = holidayRoutes.includes(location.pathname);
   const isLeaveActive = leaveRoutes.includes(location.pathname);
   const isPayrollActive = payrollRoutes.includes(location.pathname);
+  const isLoginHistoryActive = loginHistoryRoutes.includes(location.pathname);
   const companyLogoSrc = getCompanyLogoSrc(company);
   const companyName = company.company_name || "HRMS";
   const companySubtitle =
@@ -164,7 +168,21 @@ export default function Sidebar({ collapsed: propCollapsed, setCollapsed: propSe
   const handleLogout = async () => {
     try {
       const token = localStorage.getItem("token");
+      const loginSessionId = localStorage.getItem("login_session_id");
+
       if (token) {
+        if (loginSessionId) {
+          try {
+            await axios.put(
+              `${import.meta.env.VITE_SERVER_ADDRESS}/api/login-history/${loginSessionId}/logout`,
+              {},
+              { headers: { Authorization: `Bearer ${token}` } }
+            );
+          } catch (histErr) {
+            console.error("Logout history update error:", histErr);
+          }
+        }
+
         await axios.post(
           `${import.meta.env.VITE_SERVER_ADDRESS}/api/auth/logout`,
           {},
@@ -182,6 +200,7 @@ export default function Sidebar({ collapsed: propCollapsed, setCollapsed: propSe
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     localStorage.removeItem("company");
+    localStorage.removeItem("login_session_id");
     localStorage.removeItem("_grecaptcha");
     sessionStorage.clear();
     window.location.href = "/login";
@@ -484,6 +503,15 @@ export default function Sidebar({ collapsed: propCollapsed, setCollapsed: propSe
         </div>
 
 
+
+        {/* Login History */}
+        <NavLink to="/login-history" className={menuClass}>
+          <div className="flex items-center gap-3 min-w-0">
+            <History size={18} />
+            {!collapsed && <span className="truncate">Login History</span>}
+          </div>
+          {!collapsed && <ChevronRight size={14} className="text-slate-400 group-hover:text-white transition duration-150" />}
+        </NavLink>
 
         <NavLink to="/reports" className={menuClass}>
           <div className="flex items-center gap-3 min-w-0">
