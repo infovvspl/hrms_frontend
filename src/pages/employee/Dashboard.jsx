@@ -366,20 +366,8 @@ export default function EmployeeDashboard() {
               <p className="text-[9px] text-indigo-600 font-bold mt-1">↑ 24 this month</p>
             </div>
           </div>
-
-          {/* Card 2: Presence Rate (Green Theme) */}
-          <div className="bg-white border border-slate-200/50 rounded-3xl p-5 shadow-sm flex items-center gap-4 relative overflow-hidden group">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 border border-emerald-100/50 shadow-inner">
-              <User size={20} />
-            </div>
-            <div className="min-w-0">
-              <p className="text-[10px] text-slate-400 font-black uppercase tracking-wider">Leave Balance</p>
-              <p className="text-2xl font-black text-slate-800 mt-1">{leaveBalance || 18}</p>
-              <p className="text-[9px] text-emerald-600 font-bold mt-1">84.0% of total</p>
-            </div>
-          </div>
-
-          {/* Card 3: Leave Balance (Orange Theme) */}
+    
+          {/* Card 2: Leave Balance (Orange Theme) */}
           <div className="bg-white border border-slate-200/50 rounded-3xl p-5 shadow-sm flex items-center gap-4 relative overflow-hidden group">
             <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 border border-amber-100/50 shadow-inner">
               <Calendar size={20} />
@@ -391,7 +379,7 @@ export default function EmployeeDashboard() {
             </div>
           </div>
 
-          {/* Card 4: Absent Today (Red Theme) */}
+          {/* Card 3: Absent Today (Red Theme) */}
           <div className="bg-white border border-slate-200/50 rounded-3xl p-5 shadow-sm flex items-center gap-4 relative overflow-hidden group">
             <div className="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center shrink-0 border border-rose-100/50 shadow-inner">
               <AlertCircle size={20} />
@@ -403,7 +391,7 @@ export default function EmployeeDashboard() {
             </div>
           </div>
 
-          {/* Card 5: Work Hours Average (Blue Theme) */}
+          {/* Card 4: Work Hours Average (Blue Theme) */}
           <div className="bg-white border border-slate-200/50 rounded-3xl p-5 shadow-sm flex items-center gap-4 relative overflow-hidden group">
             <div className="w-12 h-12 rounded-2xl bg-cyan-50 text-cyan-600 flex items-center justify-center shrink-0 border border-cyan-100/50 shadow-inner">
               <Clock size={20} />
@@ -412,6 +400,18 @@ export default function EmployeeDashboard() {
               <p className="text-[10px] text-slate-400 font-black uppercase tracking-wider">New Joiners (May)</p>
               <p className="text-2xl font-black text-slate-800 mt-1">24</p>
               <p className="text-[9px] text-cyan-600 font-bold mt-1">↑ 12% from last month</p>
+            </div>
+          </div>
+
+           {/* Card 5: Work Hours Average (Blue Theme) */}
+           <div className="bg-white border border-slate-200/50 rounded-3xl p-5 shadow-sm flex items-center gap-4 relative overflow-hidden group">
+            <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 border border-emerald-100/50 shadow-inner">
+              <User size={20} />
+            </div>
+            <div className="min-w-0">
+              <p className="text-[10px] text-slate-400 font-black uppercase tracking-wider">Leave Balance</p>
+              <p className="text-2xl font-black text-slate-800 mt-1">{leaveBalance || 18}</p>
+              <p className="text-[9px] text-emerald-600 font-bold mt-1">84.0% of total</p>
             </div>
           </div>
         </div>
