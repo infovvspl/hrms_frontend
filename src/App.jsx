@@ -46,7 +46,6 @@ import Branch from "./pages/Branch";
 import Role from "./pages/Role";
 import Designation from "./pages/Designation";
 import Department from "./pages/Department";
-import LoginHistory from "./pages/LoginHistory";
 
 
 // Employee//
@@ -196,14 +195,7 @@ function AppContent() {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/login-history"
-          element={
-            <ProtectedRoute requiredRole="company">
-              <LoginHistory />
-            </ProtectedRoute>
-          }
-        />
+
 
 
         <Route

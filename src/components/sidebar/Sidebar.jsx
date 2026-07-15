@@ -17,7 +17,6 @@ import {
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
-  ShieldCheck,
 } from "lucide-react";
 
 export default function Sidebar({ collapsed: propCollapsed, setCollapsed: propSetCollapsed }) {
@@ -484,13 +483,7 @@ export default function Sidebar({ collapsed: propCollapsed, setCollapsed: propSe
           )}
         </div>
 
-        <NavLink to="/login-history" className={menuClass}>
-          <div className="flex items-center gap-3 min-w-0">
-            <ShieldCheck size={18} />
-            {!collapsed && <span className="truncate">Login History</span>}
-          </div>
-          {!collapsed && <ChevronRight size={14} className="text-slate-400 group-hover:text-white transition duration-150" />}
-        </NavLink>
+
 
         <NavLink to="/reports" className={menuClass}>
           <div className="flex items-center gap-3 min-w-0">
