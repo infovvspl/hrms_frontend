@@ -219,23 +219,21 @@ export default function EmployeeLeaveHistory() {
                                 text-[10px]
                                 font-bold
                                 border
-                                ${
-                                  status === "Approved"
-                                    ? "bg-emerald-50 text-emerald-700 border-emerald-100"
-                                    : status === "Rejected"
+                                ${status === "Approved"
+                                  ? "bg-emerald-50 text-emerald-700 border-emerald-100"
+                                  : status === "Rejected"
                                     ? "bg-rose-50 text-rose-700 border-rose-100"
                                     : "bg-amber-50 text-amber-700 border-amber-100"
                                 }
                               `}
                             >
                               <span
-                                className={`w-1.5 h-1.5 rounded-full ${
-                                  status === "Approved"
+                                className={`w-1.5 h-1.5 rounded-full ${status === "Approved"
                                     ? "bg-emerald-500"
                                     : status === "Rejected"
-                                    ? "bg-rose-500"
-                                    : "bg-amber-500"
-                                }`}
+                                      ? "bg-rose-500"
+                                      : "bg-amber-500"
+                                  }`}
                               />
                               {status}
                             </span>

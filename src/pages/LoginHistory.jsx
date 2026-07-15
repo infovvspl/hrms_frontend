@@ -28,32 +28,34 @@ const API_BASE = `${import.meta.env.VITE_SERVER_ADDRESS || "http://localhost:500
 const STATUS_CONFIG = {
   success: {
     label: "Success",
-    color: "text-emerald-400",
-    bg: "bg-emerald-500/10 border-emerald-500/20",
+    color: "text-emerald-700",
+    bg: "bg-emerald-50 border-emerald-100",
+    dot: "bg-emerald-500",
     icon: CheckCircle,
   },
   failed: {
     label: "Failed",
-    color: "text-red-400",
-    bg: "bg-red-500/10 border-red-500/20",
+    color: "text-rose-700",
+    bg: "bg-rose-50 border-rose-100",
+    dot: "bg-rose-500",
     icon: XCircle,
   },
   blocked: {
     label: "Blocked",
-    color: "text-amber-400",
-    bg: "bg-amber-500/10 border-amber-500/20",
+    color: "text-amber-700",
+    bg: "bg-amber-50 border-amber-100",
+    dot: "bg-amber-500",
     icon: AlertTriangle,
   },
 };
 
 function StatusBadge({ status }) {
   const cfg = STATUS_CONFIG[status] || STATUS_CONFIG.success;
-  const Icon = cfg.icon;
   return (
     <span
-      className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold border ${cfg.bg} ${cfg.color}`}
+      className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${cfg.bg} ${cfg.color}`}
     >
-      <Icon size={11} />
+      <span className={`w-1.5 h-1.5 rounded-full ${cfg.dot}`} />
       {cfg.label}
     </span>
   );
@@ -167,59 +169,64 @@ export default function LoginHistory() {
       {/* Toast */}
       {toast && (
         <div
-          className={`fixed top-4 right-4 z-50 px-5 py-3 rounded-xl shadow-2xl text-sm font-medium flex items-center gap-2 transition-all ${
+          className={`fixed top-4 right-4 z-50 px-5 py-3 rounded-xl shadow-2xl text-xs font-semibold flex items-center gap-2 transition-all ${
             toast.type === "error"
-              ? "bg-red-600 text-white"
+              ? "bg-rose-600 text-white"
               : "bg-emerald-600 text-white"
           }`}
         >
-          {toast.type === "error" ? <XCircle size={16} /> : <CheckCircle size={16} />}
+          {toast.type === "error" ? <XCircle size={14} /> : <CheckCircle size={14} />}
           {toast.msg}
         </div>
       )}
 
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white p-6 rounded-2xl">
-        {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-          <div>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent flex items-center gap-2">
-              <Activity size={24} className="text-blue-400" />
-              Login History
-            </h1>
-            <p className="text-slate-400 text-sm mt-1">
-              Monitor all employee login activity across your organisation
-            </p>
+      <div className="space-y-6 max-w-7xl mx-auto py-2">
+        {/* Header Banner */}
+        <div className="bg-gradient-to-r from-[#08112d] via-[#151a5a] to-[#08112d] rounded-3xl p-6 text-white border border-white/10 shadow-lg relative overflow-hidden">
+          <div className="absolute right-[-40px] top-[-40px] w-48 h-48 bg-indigo-500/10 rounded-full blur-2xl" />
+          <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="space-y-1">
+              <span className="bg-indigo-500/20 text-indigo-300 border border-indigo-400/20 text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-xl">
+                Security Portal
+              </span>
+              <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mt-2">
+                Login History Registry
+              </h1>
+              <p className="text-slate-300 text-xs font-semibold">
+                Monitor all employee login activity, active sessions, and client devices.
+              </p>
+            </div>
+            <button
+              onClick={fetchHistory}
+              disabled={loading}
+              className="bg-[#2390ea] hover:bg-[#1678d4] text-white px-5 py-3 rounded-2xl text-xs font-bold transition duration-150 flex items-center gap-1.5 shadow-md hover:scale-[1.02] cursor-pointer"
+            >
+              <RefreshCw size={14} className={loading ? "animate-spin" : ""} />
+              Refresh Registry
+            </button>
           </div>
-          <button
-            onClick={fetchHistory}
-            disabled={loading}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium transition-all disabled:opacity-50 cursor-pointer"
-          >
-            <RefreshCw size={14} className={loading ? "animate-spin" : ""} />
-            Refresh
-          </button>
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            { label: "Total Records", value: stats.total, icon: Clock, color: "from-blue-600 to-cyan-600" },
-            { label: "Successful", value: stats.success, icon: CheckCircle, color: "from-emerald-600 to-green-600" },
-            { label: "Failed", value: stats.failed, icon: XCircle, color: "from-red-600 to-rose-600" },
-            { label: "Active Sessions", value: stats.active, icon: Wifi, color: "from-violet-600 to-purple-600" },
+            { label: "Total Records", value: stats.total, icon: Clock, color: "from-blue-50 to-indigo-50 text-indigo-600 border-indigo-100" },
+            { label: "Successful", value: stats.success, icon: CheckCircle, color: "from-emerald-50 to-green-50 text-emerald-600 border-emerald-100" },
+            { label: "Failed Attempts", value: stats.failed, icon: XCircle, color: "from-rose-50 to-red-50 text-rose-600 border-rose-100" },
+            { label: "Active Sessions", value: stats.active, icon: Wifi, color: "from-violet-50 to-purple-50 text-violet-600 border-violet-100" },
           ].map((s) => {
             const Icon = s.icon;
             return (
               <div
                 key={s.label}
-                className="bg-white/5 border border-white/10 rounded-2xl p-4 flex items-center gap-4 backdrop-blur-sm"
+                className={`bg-white border rounded-3xl p-4 flex items-center gap-4 shadow-sm ${s.color.split(" ")[2]}`}
               >
-                <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${s.color} flex items-center justify-center shrink-0`}>
-                  <Icon size={18} className="text-white" />
+                <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${s.color.split(" ").slice(0, 2).join(" ")} flex items-center justify-center shrink-0 border`}>
+                  <Icon size={18} />
                 </div>
                 <div>
-                  <p className="text-2xl font-bold text-white">{s.value}</p>
-                  <p className="text-xs text-slate-400">{s.label}</p>
+                  <p className="text-2xl font-bold text-slate-800">{s.value}</p>
+                  <p className="text-[10px] text-slate-400 font-black uppercase tracking-wider">{s.label}</p>
                 </div>
               </div>
             );
@@ -227,53 +234,60 @@ export default function LoginHistory() {
         </div>
 
         {/* Filters */}
-        <div className="flex flex-col sm:flex-row gap-3 mb-6">
-          <div className="flex-1 relative">
-            <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+        <div className="bg-white border border-slate-100 rounded-3xl p-4 shadow-sm flex flex-col sm:flex-row items-center gap-4 justify-between">
+          <div className="relative w-full sm:w-72">
+            <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 pointer-events-none">
+              <Search size={14} />
+            </span>
             <input
               type="text"
               placeholder="Search by name, email, IP, browser, OS…"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-9 pr-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition"
+              className="w-full bg-slate-50 border border-slate-200 hover:border-slate-300 focus:bg-white pl-10 pr-4 py-2.5 rounded-2xl text-slate-750 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs font-semibold transition-all duration-200"
             />
           </div>
-          <div className="flex items-center gap-2">
-            <Filter size={14} className="text-slate-400 shrink-0" />
+
+          <div className="flex items-center gap-3 w-full sm:w-auto">
+            <span className="text-slate-400 text-[10px] font-black uppercase tracking-widest flex items-center gap-1 shrink-0">
+              <Filter size={12} />
+              Filter status
+            </span>
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="bg-white/5 border border-white/10 text-sm text-white rounded-xl px-3 py-2.5 focus:outline-none focus:border-blue-500 transition cursor-pointer"
+              className="w-full sm:w-44 border border-slate-200 rounded-2xl p-2.5 text-xs font-semibold text-slate-700 bg-slate-50 focus:border-indigo-500 focus:bg-white outline-none transition duration-150"
             >
-              <option value="all" className="bg-slate-800">All Status</option>
-              <option value="success" className="bg-slate-800">Success</option>
-              <option value="failed" className="bg-slate-800">Failed</option>
-              <option value="blocked" className="bg-slate-800">Blocked</option>
+              <option value="all">All Statuses</option>
+              <option value="success">Success</option>
+              <option value="failed">Failed</option>
+              <option value="blocked">Blocked</option>
             </select>
           </div>
         </div>
 
-        {/* Table */}
-        <div className="bg-white/5 border border-white/10 rounded-2xl backdrop-blur-sm overflow-hidden">
+        {/* Table Container */}
+        <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm">
           {loading ? (
-            <div className="flex items-center justify-center py-24">
-              <RefreshCw size={28} className="animate-spin text-blue-400" />
+            <div className="flex justify-center items-center py-16">
+              <RefreshCw size={24} className="animate-spin text-blue-600" />
+              <span className="text-xs font-black text-slate-400 uppercase tracking-widest ml-3">Loading history registry...</span>
             </div>
           ) : paginated.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-24 text-slate-500">
-              <Activity size={40} className="mb-3 opacity-40" />
-              <p className="text-sm">No login history records found</p>
+            <div className="flex flex-col items-center justify-center py-16 text-slate-400 font-semibold text-xs gap-2">
+              <Activity size={32} className="text-slate-300" />
+              <span>No login history registry entries found.</span>
             </div>
           ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
+            <div className="overflow-x-auto border border-slate-100 rounded-3xl">
+              <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="border-b border-white/10 bg-white/5">
+                  <tr className="bg-slate-50 border-b border-slate-100">
                     {["User", "Login At", "Logout At", "Duration", "IP Address", "Browser / OS", "Location", "Status", "Actions"].map(
                       (h) => (
                         <th
                           key={h}
-                          className="text-left px-4 py-3 text-xs font-semibold text-slate-400 uppercase tracking-wider whitespace-nowrap"
+                          className="px-5 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap"
                         >
                           {h}
                         </th>
@@ -281,86 +295,85 @@ export default function LoginHistory() {
                     )}
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="divide-y divide-slate-100">
                   {paginated.map((rec, i) => (
                     <tr
                       key={rec.id}
-                      className={`border-b border-white/5 hover:bg-white/5 transition-colors ${
-                        i % 2 === 0 ? "bg-transparent" : "bg-white/[0.02]"
-                      }`}
+                      className="hover:bg-slate-50/40 text-xs font-semibold text-slate-700 transition duration-150"
                     >
                       {/* User */}
-                      <td className="px-4 py-3 whitespace-nowrap">
+                      <td className="px-5 py-4 whitespace-nowrap">
                         <div className="flex items-center gap-2.5">
-                          <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center shrink-0 text-xs font-bold">
+                          <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center shrink-0 text-white text-[10px] font-black shadow-sm">
                             {rec.first_name?.[0]?.toUpperCase() || <User size={12} />}
                           </div>
                           <div>
-                            <p className="font-medium text-white text-xs">
+                            <p className="font-bold text-slate-800 text-xs leading-none mb-0.5">
                               {rec.first_name
                                 ? `${rec.first_name} ${rec.last_name || ""}`.trim()
                                 : `User #${rec.user_id || "—"}`}
                             </p>
-                            <p className="text-slate-500 text-[10px] truncate max-w-[120px]">{rec.email || "—"}</p>
+                            <p className="text-slate-400 text-[10px] font-medium leading-none">{rec.email || "—"}</p>
                           </div>
                         </div>
                       </td>
 
                       {/* Login At */}
-                      <td className="px-4 py-3 whitespace-nowrap text-xs text-slate-300">
+                      <td className="px-5 py-4 whitespace-nowrap">
                         <div className="flex items-center gap-1.5">
-                          <LogIn size={12} className="text-blue-400" />
-                          {formatDate(rec.login_at)}
+                          <LogIn size={13} className="text-blue-500" />
+                          <span className="text-slate-800">{formatDate(rec.login_at)}</span>
                         </div>
                       </td>
 
                       {/* Logout At */}
-                      <td className="px-4 py-3 whitespace-nowrap text-xs text-slate-300">
+                      <td className="px-5 py-4 whitespace-nowrap">
                         {rec.logout_at ? (
                           <div className="flex items-center gap-1.5">
-                            <LogOut size={12} className="text-slate-400" />
-                            {formatDate(rec.logout_at)}
+                            <LogOut size={13} className="text-slate-400" />
+                            <span className="text-slate-600">{formatDate(rec.logout_at)}</span>
                           </div>
                         ) : (
-                          <span className="text-emerald-400 text-[10px] font-semibold bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full">
+                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold border bg-emerald-50 text-emerald-700 border-emerald-100">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                             Active
                           </span>
                         )}
                       </td>
 
                       {/* Duration */}
-                      <td className="px-4 py-3 whitespace-nowrap text-xs text-slate-400">
+                      <td className="px-5 py-4 whitespace-nowrap text-slate-500">
                         {duration(rec.login_at, rec.logout_at)}
                       </td>
 
                       {/* IP */}
-                      <td className="px-4 py-3 whitespace-nowrap">
-                        <div className="flex items-center gap-1.5 text-xs text-slate-300">
-                          <Globe size={12} className="text-slate-400 shrink-0" />
-                          {rec.ipaddress || "—"}
+                      <td className="px-5 py-4 whitespace-nowrap">
+                        <div className="flex items-center gap-1.5 text-slate-700">
+                          <Globe size={13} className="text-slate-400 shrink-0" />
+                          <span>{rec.ipaddress || "—"}</span>
                         </div>
                       </td>
 
                       {/* Browser / OS */}
-                      <td className="px-4 py-3 whitespace-nowrap">
-                        <div className="text-xs">
-                          <div className="flex items-center gap-1 text-slate-300">
-                            <Monitor size={11} className="text-slate-400 shrink-0" />
+                      <td className="px-5 py-4 whitespace-nowrap">
+                        <div className="space-y-0.5">
+                          <div className="flex items-center gap-1 text-slate-800 font-bold">
+                            <Monitor size={12} className="text-slate-400 shrink-0" />
                             <span className="truncate max-w-[90px]">{rec.browser || "—"}</span>
                           </div>
-                          <div className="flex items-center gap-1 text-slate-500 mt-0.5">
-                            <Smartphone size={11} className="shrink-0" />
+                          <div className="flex items-center gap-1 text-[10px] text-slate-400 font-bold">
+                            <Smartphone size={12} className="shrink-0" />
                             <span className="truncate max-w-[90px]">{rec.os || "—"}</span>
                           </div>
                         </div>
                       </td>
 
                       {/* Location */}
-                      <td className="px-4 py-3 whitespace-nowrap text-xs text-slate-400">
+                      <td className="px-5 py-4 whitespace-nowrap text-slate-500">
                         {rec.lattitude && rec.longitude ? (
                           <div className="flex items-center gap-1">
-                            <MapPin size={11} className="text-rose-400 shrink-0" />
-                            <span className="truncate max-w-[90px]">
+                            <MapPin size={12} className="text-rose-500 shrink-0" />
+                            <span>
                               {parseFloat(rec.lattitude).toFixed(3)},{" "}
                               {parseFloat(rec.longitude).toFixed(3)}
                             </span>
@@ -371,11 +384,11 @@ export default function LoginHistory() {
                       </td>
 
                       {/* Status */}
-                      <td className="px-4 py-3 whitespace-nowrap">
-                        <div>
+                      <td className="px-5 py-4 whitespace-nowrap">
+                        <div className="space-y-1">
                           <StatusBadge status={rec.login_status} />
                           {rec.failure_reason && (
-                            <p className="text-[10px] text-red-400 mt-0.5 max-w-[100px] truncate" title={rec.failure_reason}>
+                            <p className="text-[10px] text-rose-600 font-bold max-w-[100px] truncate" title={rec.failure_reason}>
                               {rec.failure_reason}
                             </p>
                           )}
@@ -383,12 +396,12 @@ export default function LoginHistory() {
                       </td>
 
                       {/* Actions */}
-                      <td className="px-4 py-3 whitespace-nowrap">
+                      <td className="px-5 py-4 whitespace-nowrap">
                         <button
                           onClick={() => handleDelete(rec.id)}
                           disabled={deletingId === rec.id}
                           title="Delete record"
-                          className="p-1.5 rounded-lg hover:bg-red-500/20 text-slate-500 hover:text-red-400 transition-colors cursor-pointer disabled:opacity-50"
+                          className="p-2 border border-transparent hover:border-rose-100 text-slate-500 hover:bg-rose-50 hover:text-rose-600 rounded-xl transition duration-150 flex items-center justify-center shadow-sm hover:shadow cursor-pointer disabled:opacity-50"
                         >
                           {deletingId === rec.id ? (
                             <RefreshCw size={13} className="animate-spin" />
@@ -408,16 +421,16 @@ export default function LoginHistory() {
         {/* Pagination */}
         {totalPages > 1 && (
           <div className="flex items-center justify-between mt-4">
-            <p className="text-xs text-slate-500">
+            <p className="text-xs font-bold text-slate-400">
               Showing {(page - 1) * PAGE_SIZE + 1}–{Math.min(page * PAGE_SIZE, filtered.length)} of {filtered.length} records
             </p>
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
                 disabled={page === 1}
-                className="p-1.5 rounded-lg hover:bg-white/10 text-slate-400 hover:text-white disabled:opacity-30 transition cursor-pointer"
+                className="p-2 border border-slate-200 hover:bg-slate-50 text-slate-600 rounded-xl transition disabled:opacity-30 cursor-pointer"
               >
-                <ChevronLeft size={16} />
+                <ChevronLeft size={14} />
               </button>
               {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
                 let p = i + 1;
@@ -427,10 +440,10 @@ export default function LoginHistory() {
                   <button
                     key={p}
                     onClick={() => setPage(p)}
-                    className={`w-7 h-7 rounded-lg text-xs font-medium transition cursor-pointer ${
+                    className={`w-8 h-8 rounded-xl text-xs font-bold transition cursor-pointer ${
                       page === p
-                        ? "bg-blue-600 text-white"
-                        : "hover:bg-white/10 text-slate-400 hover:text-white"
+                        ? "bg-[#2390ea] text-white"
+                        : "border border-slate-200 hover:bg-slate-50 text-slate-600"
                     }`}
                   >
                     {p}
@@ -440,9 +453,9 @@ export default function LoginHistory() {
               <button
                 onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                 disabled={page === totalPages}
-                className="p-1.5 rounded-lg hover:bg-white/10 text-slate-400 hover:text-white disabled:opacity-30 transition cursor-pointer"
+                className="p-2 border border-slate-200 hover:bg-slate-50 text-slate-600 rounded-xl transition disabled:opacity-30 cursor-pointer"
               >
-                <ChevronRight size={16} />
+                <ChevronRight size={14} />
               </button>
             </div>
           </div>
