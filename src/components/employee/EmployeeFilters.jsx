@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaSearch, FaTimes, FaFileCsv, FaInfoCircle, FaFilter } from "react-icons/fa";
+import { FaSearch, FaTimes, FaFileCsv, FaInfoCircle, FaFilter, FaTable, FaSitemap } from "react-icons/fa";
 
 // ==========================================
 // STATUS TABS COMPONENT
@@ -79,6 +79,8 @@ export function EmployeeActionBar({
   onExportClick,
   filteredCount = 0,
   totalCount = 0,
+  viewMode = "table",
+  setViewMode,
 }) {
   const [showTooltip, setShowTooltip] = useState(false);
 
@@ -211,6 +213,36 @@ export function EmployeeActionBar({
             <FaFileCsv className="text-emerald-600" size={14} />
             <span>Export CSV</span>
           </button>
+
+          {/* View Mode Toggle */}
+          {setViewMode && (
+            <div className="flex items-center rounded-2xl border border-slate-200 overflow-hidden shadow-sm shrink-0">
+              <button
+                onClick={() => setViewMode("table")}
+                title="Table View"
+                className={`flex items-center gap-1.5 px-3 py-3 text-xs font-bold transition-all cursor-pointer ${
+                  viewMode === "table"
+                    ? "bg-slate-900 text-white"
+                    : "bg-white text-slate-600 hover:bg-slate-50"
+                }`}
+              >
+                <FaTable size={13} />
+                <span className="hidden sm:inline">Table</span>
+              </button>
+              <button
+                onClick={() => setViewMode("tree")}
+                title="Org Tree View"
+                className={`flex items-center gap-1.5 px-3 py-3 text-xs font-bold transition-all cursor-pointer border-l border-slate-200 ${
+                  viewMode === "tree"
+                    ? "bg-indigo-600 text-white border-indigo-500"
+                    : "bg-white text-slate-600 hover:bg-slate-50"
+                }`}
+              >
+                <FaSitemap size={13} />
+                <span className="hidden sm:inline">Org Tree</span>
+              </button>
+            </div>
+          )}
 
           {/* Add New Employee */}
           <button

@@ -10,6 +10,7 @@ import { EmployeeActionBar } from "../components/employee/EmployeeFilters";
 import EmployeeTable from "../components/employee/EmployeeTable";
 import EmployeeModal from "../components/employee/EmployeeModal";
 import EmployeeViewModal from "../components/employee/EmployeeViewModal";
+import OrgTree from "../components/employee/OrgTree";
 
 const EMPLOYEE_API = "http://localhost:5000/api/employees";
 const BRANCH_API = "http://localhost:5000/api/branch";
@@ -33,6 +34,7 @@ export default function Employee() {
   const [showModal, setShowModal] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [editingEmployee, setEditingEmployee] = useState(null);
+  const [viewMode, setViewMode] = useState("table"); // "table" | "tree"
 
   const [stats, setStats] = useState({
     total: 0,
@@ -297,15 +299,24 @@ export default function Employee() {
           onExportClick={handleExportCSV}
           filteredCount={filteredEmployees.length}
           totalCount={employees.length}
+          viewMode={viewMode}
+          setViewMode={setViewMode}
         />
 
-        {/* Table */}
-        <EmployeeTable
-          employees={filteredEmployees}
-          onView={handleView}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
-        />
+        {/* Table or Tree View */}
+        {viewMode === "tree" ? (
+          <OrgTree
+            employees={filteredEmployees}
+            onView={handleView}
+          />
+        ) : (
+          <EmployeeTable
+            employees={filteredEmployees}
+            onView={handleView}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+          />
+        )}
 
         {/* Add / Edit Modal */}
         {showModal && (

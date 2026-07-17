@@ -40,6 +40,7 @@ export default function Sidebar({ collapsed: propCollapsed, setCollapsed: propSe
     "/role",
     "/designation",
     "/department",
+    "/employee-tree",
   ];
 
   const employeeRoutes = [
@@ -74,6 +75,10 @@ export default function Sidebar({ collapsed: propCollapsed, setCollapsed: propSe
     "/payroll/payslip",
   ];
 
+  const recruitmentRoutes = [
+    "/resume-analyser",
+  ];
+
   const loginHistoryRoutes = ["/login-history"];
 
   const [expandedMenu, setExpandedMenu] = useState(() => {
@@ -87,6 +92,7 @@ export default function Sidebar({ collapsed: propCollapsed, setCollapsed: propSe
     if (holidayRoutes.includes(path)) return "holiday";
     if (leaveRoutes.includes(path)) return "leave";
     if (payrollRoutes.includes(path)) return "payroll";
+    if (recruitmentRoutes.includes(path)) return "recruitment";
     return null;
   });
 
@@ -104,6 +110,7 @@ export default function Sidebar({ collapsed: propCollapsed, setCollapsed: propSe
   const isHolidayActive = holidayRoutes.includes(location.pathname);
   const isLeaveActive = leaveRoutes.includes(location.pathname);
   const isPayrollActive = payrollRoutes.includes(location.pathname);
+  const isRecruitmentActive = recruitmentRoutes.includes(location.pathname);
   const isLoginHistoryActive = loginHistoryRoutes.includes(location.pathname);
   const companyLogoSrc = getCompanyLogoSrc(company);
   const companyName = company.company_name || "HRMS";
@@ -162,6 +169,7 @@ export default function Sidebar({ collapsed: propCollapsed, setCollapsed: propSe
     else if (holidayRoutes.includes(path)) setExpandedMenu("holiday");
     else if (leaveRoutes.includes(path)) setExpandedMenu("leave");
     else if (payrollRoutes.includes(path)) setExpandedMenu("payroll");
+    else if (recruitmentRoutes.includes(path)) setExpandedMenu("recruitment");
     else setExpandedMenu(null);
   }, [location.pathname, collapsed]);
 
@@ -497,12 +505,40 @@ export default function Sidebar({ collapsed: propCollapsed, setCollapsed: propSe
           {expandedMenu === "payroll" && !collapsed && (
             <div className="ml-10 mt-1 flex flex-col gap-1 text-sm">
               <NavLink to="/payroll/salary-details" className={subMenuLinkClass}>Salary Details</NavLink>
-              <NavLink to="/payroll/payslip" className={subMenuLinkClass}>Payslips</NavLink>
+              <NavLink to="/payroll/payslip" className={subMenuLinkClass}>Payslip</NavLink>
             </div>
           )}
         </div>
 
+        {/* Recruitment */}
+        <div>
+          <button
+            onClick={() => {
+              if (!collapsed) {
+                setExpandedMenu(prev => prev === "recruitment" ? null : "recruitment");
+              }
+              navigate("/resume-analyser");
+            }}
+            className={getParentClass(isRecruitmentActive)}
+          >
+            <div className="flex items-center gap-3 min-w-0">
+              <Users size={18} />
+              {!collapsed && <span className="truncate">Recruitment</span>}
+            </div>
 
+            {!collapsed && (
+              <span className="text-slate-400 group-hover:text-white transition duration-150">
+                {expandedMenu === "recruitment" ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+              </span>
+            )}
+          </button>
+
+          {expandedMenu === "recruitment" && !collapsed && (
+            <div className="ml-10 mt-1 flex flex-col gap-1 text-sm">
+              <NavLink to="/resume-analyser" className={subMenuLinkClass}>Resume Analyser</NavLink>
+            </div>
+          )}
+        </div>
 
         {/* Login History */}
         <NavLink to="/login-history" className={menuClass}>
