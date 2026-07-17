@@ -162,10 +162,6 @@ export default function EmployeeViewModal({
                 <span className="bg-indigo-50 border border-indigo-100 text-indigo-700 text-[10px] font-bold px-2.5 py-0.5 rounded-full">
                   {getEmploymentTypeName(employee.employment_type || "1")}
                 </span>
-
-                <span className="bg-slate-100 border border-slate-200 text-slate-600 text-[10px] font-bold px-2.5 py-0.5 rounded-full">
-                  Onboarding: {employee.onboarding_status || "Pending"}
-                </span>
               </div>
             </div>
           </div>
@@ -330,6 +326,9 @@ export default function EmployeeViewModal({
             </h3>
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {employee.resume && (
+                <DocumentCard title="Resume" fileUrl={`http://localhost:5000${employee.resume}`} />
+              )}
               <DocumentCard title="Aadhar Card" fileUrl={employee.aadhar_card} />
               <DocumentCard title="PAN Card" fileUrl={employee.pan_card} />
               <DocumentCard title="Passport" fileUrl={employee.passport} />
