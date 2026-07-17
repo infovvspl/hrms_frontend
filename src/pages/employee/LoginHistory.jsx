@@ -167,25 +167,82 @@ export default function EmployeeLoginHistory() {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {[
-            { label: "Total Logins", value: stats.total, icon: Clock, color: "from-blue-50 to-indigo-50 text-indigo-600 border-indigo-100" },
-            { label: "Successful", value: stats.success, icon: CheckCircle, color: "from-emerald-50 to-green-50 text-emerald-600 border-emerald-100" },
-            { label: "Failed Attempts", value: stats.failed, icon: XCircle, color: "from-rose-50 to-red-50 text-rose-600 border-rose-100" },
-            { label: "Active Sessions", value: stats.active, icon: Activity, color: "from-violet-50 to-purple-50 text-violet-600 border-violet-100" },
+            {
+              label: "Total Logins",
+              value: stats.total,
+              subtext: `${stats.total} entries`,
+              icon: Clock,
+              theme: {
+                bg: "from-blue-500/10 to-indigo-500/10",
+                border: "border-slate-200/60 hover:border-blue-400/50",
+                iconBg: "bg-gradient-to-tr from-blue-500 to-indigo-600 text-white shadow-[0_4px_12px_rgba(59,130,246,0.25)]",
+                blob: "bg-gradient-to-br from-blue-500/10 to-indigo-500/10"
+              }
+            },
+            {
+              label: "Successful",
+              value: stats.success,
+              subtext: `${stats.total > 0 ? ((stats.success / stats.total) * 100).toFixed(0) : 0}% rate`,
+              icon: CheckCircle,
+              theme: {
+                bg: "from-emerald-500/10 to-teal-500/10",
+                border: "border-slate-200/60 hover:border-emerald-400/50",
+                iconBg: "bg-gradient-to-tr from-emerald-400 to-teal-600 text-white shadow-[0_4px_12px_rgba(16,185,129,0.25)]",
+                blob: "bg-gradient-to-br from-emerald-500/10 to-teal-500/10"
+              }
+            },
+            {
+              label: "Failed Attempts",
+              value: stats.failed,
+              subtext: `${stats.total > 0 ? ((stats.failed / stats.total) * 100).toFixed(0) : 0}% rate`,
+              icon: XCircle,
+              theme: {
+                bg: "from-rose-500/10 to-red-500/10",
+                border: "border-slate-200/60 hover:border-rose-400/50",
+                iconBg: "bg-gradient-to-tr from-rose-400 to-red-600 text-white shadow-[0_4px_12px_rgba(244,63,94,0.25)]",
+                blob: "bg-gradient-to-br from-rose-500/10 to-red-500/10"
+              }
+            },
+            {
+              label: "Active Sessions",
+              value: stats.active,
+              subtext: `${stats.active} active`,
+              icon: Activity,
+              theme: {
+                bg: "from-violet-500/10 to-purple-500/10",
+                border: "border-slate-200/60 hover:border-violet-400/50",
+                iconBg: "bg-gradient-to-tr from-violet-400 to-purple-600 text-white shadow-[0_4px_12px_rgba(139,92,246,0.25)]",
+                blob: "bg-gradient-to-br from-violet-500/10 to-purple-500/10"
+              }
+            }
           ].map((s) => {
             const Icon = s.icon;
             return (
               <div
                 key={s.label}
-                className={`bg-white border rounded-3xl p-4 flex items-center gap-4 shadow-sm ${s.color.split(" ")[2]}`}
+                className={`relative group bg-white border ${s.theme.border} rounded-3xl p-4.5 flex items-center gap-4 overflow-hidden shadow-[0_6px_25px_rgba(0,0,0,0.012)] hover:shadow-[0_16px_32px_rgba(0,0,0,0.04)] hover:-translate-y-1 transition-all duration-300 ease-in-out cursor-default`}
               >
-                <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${s.color.split(" ").slice(0, 2).join(" ")} flex items-center justify-center shrink-0 border`}>
-                  <Icon size={18} />
+                {/* Glow/Blob Background */}
+                <div className={`absolute top-0 right-0 w-28 h-28 rounded-full -mr-6 -mt-6 opacity-35 group-hover:opacity-68 group-hover:scale-110 blur-xl transition-all duration-500 ${s.theme.blob}`} />
+                
+                {/* Icon Box */}
+                <div className={`w-11 h-11 rounded-2xl ${s.theme.iconBg} flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-110 z-10`}>
+                  <Icon size={20} />
                 </div>
-                <div>
-                  <p className="text-2xl font-bold text-slate-800">{s.value}</p>
-                  <p className="text-[10px] text-slate-400 font-black uppercase tracking-wider">{s.label}</p>
+
+                <div className="z-10 min-w-0">
+                  <h3 className="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight leading-none mb-1 group-hover:text-slate-900 transition-colors duration-300">
+                    {s.value}
+                  </h3>
+                  <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider truncate mb-0.5">
+                    {s.label}
+                  </p>
+                  <div className="flex items-center gap-1.5 text-[11px] text-slate-400 font-semibold">
+                    <span className="w-1.5 h-1.5 rounded-full bg-slate-300 group-hover:bg-indigo-400 transition-colors duration-300 shrink-0" />
+                    <span className="truncate">{s.subtext}</span>
+                  </div>
                 </div>
               </div>
             );

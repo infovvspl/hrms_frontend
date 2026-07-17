@@ -17,6 +17,19 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [coords, setCoords] = useState({ latitude: null, longitude: null });
+  const [rememberMe, setRememberMe] = useState(false);
+
+  useEffect(() => {
+    const savedEmail = localStorage.getItem("remembered_email");
+    const savedPassword = localStorage.getItem("remembered_password");
+    if (savedEmail) {
+      setEmail(savedEmail);
+      setRememberMe(true);
+    }
+    if (savedPassword) {
+      setPassword(savedPassword);
+    }
+  }, []);
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -71,7 +84,7 @@ export default function Login() {
     e.preventDefault();
     setError("");
 
-    if (!captchaValue && window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1") {
+    if (!captchaValue) {
       setError("Please verify Google reCAPTCHA");
       return;
     }
@@ -99,6 +112,14 @@ export default function Login() {
       const { token, role, company, employee } = response.data;
       localStorage.setItem("token", token);
       localStorage.setItem("role", role || "company");
+
+      if (rememberMe) {
+        localStorage.setItem("remembered_email", email);
+        localStorage.setItem("remembered_password", password);
+      } else {
+        localStorage.removeItem("remembered_email");
+        localStorage.removeItem("remembered_password");
+      }
 
       if (role === "employee") {
         localStorage.setItem("employee", JSON.stringify(employee));
@@ -239,8 +260,13 @@ export default function Login() {
 
             {/* REMEMBER */}
             <div className="flex items-center justify-between mb-4">
-              <label className="flex items-center gap-2 text-xs text-gray-600">
-                <input type="checkbox" className="accent-blue-600" />
+              <label className="flex items-center gap-2 text-xs text-gray-600 cursor-pointer">
+                <input
+                  type="checkbox"
+                  className="accent-blue-600 cursor-pointer"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                />
                 Remember me
               </label>
 
