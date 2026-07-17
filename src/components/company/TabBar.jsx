@@ -5,6 +5,7 @@ import {
   ShieldCheck,
   BadgeCheck,
   LayoutGrid,
+  Network,
 } from "lucide-react";
 
 const TABS = [
@@ -13,6 +14,7 @@ const TABS = [
   { key: "role", label: "Role", icon: ShieldCheck },
   { key: "designation", label: "Designation", icon: BadgeCheck },
   { key: "department", label: "Department", icon: LayoutGrid },
+  { key: "employee-tree", label: "Org Tree", icon: Network },
 ];
 
 export default function TabBar({ activeTab }) {

@@ -46,6 +46,7 @@ import Branch from "./pages/Branch";
 import Role from "./pages/Role";
 import Designation from "./pages/Designation";
 import Department from "./pages/Department";
+import EmployeeTree from "./pages/EmployeeTree";
 
 
 // Employee//
@@ -81,6 +82,9 @@ import LeaveFeature from "./pages/features/Leave";
 import LoginHistory from "./pages/LoginHistory";
 import EmployeeLoginHistory from "./pages/employee/LoginHistory";
 
+// Recruitment //
+import ResumeAnalyser from "./pages/recruitment/ResumeAnalyser";
+
 // ================= PROTECTED ROUTE =================
 function ProtectedRoute({ children, requiredRole }) {
   const token = localStorage.getItem("token");
@@ -112,6 +116,7 @@ function AppContent() {
     "/role",
     "/designation",
     "/department",
+    "/employee-tree",
     "/employees",
     "/login-history",
     "/offer-letters",
@@ -140,6 +145,7 @@ function AppContent() {
     "/employee/payroll",
     "/employee/resignation",
     "/employee/login-history",
+    "/resume-analyser",
   ];
 
   const hideLayout = authPages.includes(location.pathname);
@@ -199,6 +205,14 @@ function AppContent() {
           element={
             <ProtectedRoute requiredRole="company">
               <Department />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/employee-tree"
+          element={
+            <ProtectedRoute requiredRole="company">
+              <Company />
             </ProtectedRoute>
           }
         />
@@ -473,6 +487,16 @@ function AppContent() {
           element={
             <ProtectedRoute requiredRole="employee">
               <EmployeeLoginHistory />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* ================= RESUME ANALYSER ================= */}
+        <Route
+          path="/resume-analyser"
+          element={
+            <ProtectedRoute requiredRole="company">
+              <ResumeAnalyser />
             </ProtectedRoute>
           }
         />

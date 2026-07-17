@@ -151,6 +151,7 @@ export default function EmployeeModal({
     passport: null,
     pan_card: null,
     signatures: null,
+    resume: null,
   });
 
   // Photo preview
@@ -218,6 +219,7 @@ export default function EmployeeModal({
         passport: employee.passport || null,
         pan_card: employee.pan_card || null,
         signatures: employee.signatures || null,
+        resume: employee.resume || null,
         branch_id: employee.branch_id || "",
         department_id: employee.department_id || "",
         designation_id: employee.designation_id || "",
@@ -1314,6 +1316,14 @@ export default function EmployeeModal({
 
                   <div className="grid sm:grid-cols-2 gap-6">
                     <DocumentUploadCard
+                      label="Resume Document"
+                      name="resume"
+                      file={formData.resume}
+                      onChange={handleChange}
+                      onClear={handleClearFile}
+                    />
+
+                    <DocumentUploadCard
                       label="Aadhar Card Document"
                       name="aadhar_card"
                       file={formData.aadhar_card}
@@ -1669,7 +1679,13 @@ function DocumentUploadCard({ label, name, file, onChange, onClear }) {
             <div className="flex gap-2 mt-1 relative z-30">
               {(typeof file === "string" || (file instanceof File && previewUrl)) && (
                 <a
-                  href={typeof file === "string" ? file : previewUrl}
+                  href={
+                    typeof file === "string"
+                      ? file.startsWith("/uploads")
+                        ? `http://localhost:5000${file}`
+                        : file
+                      : previewUrl
+                  }
                   target="_blank"
                   rel="noreferrer"
                   className="px-4 py-2 rounded-xl bg-slate-900 text-white text-[10px] font-extrabold hover:bg-slate-800 transition shadow-sm cursor-pointer z-30 flex items-center gap-1.5"

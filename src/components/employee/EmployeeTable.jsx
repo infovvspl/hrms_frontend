@@ -97,7 +97,6 @@ export default function EmployeeTable({
                 "Reporting Manager",
                 "Office Allocation",
                 "Area of Expertise",
-                "Onboarding Status",
                 "Status",
                 "Actions",
               ].map((head, i) => {
@@ -376,36 +375,6 @@ export default function EmployeeTable({
                   {/* Area of Expertise */}
                   <td className="px-6 py-4 text-slate-600 font-medium text-xs whitespace-nowrap">
                     {employee.area_of_expertise || "-"}
-                  </td>
-
-                  {/* Onboarding Status */}
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span
-                      className={`
-                        inline-flex items-center gap-1.5
-                        px-2.5 py-1
-                        rounded-full
-                        text-[10px]
-                        font-bold
-                        border
-                        ${employee.onboarding_status === "Completed"
-                          ? "bg-emerald-50 text-emerald-700 border-emerald-100"
-                          : employee.onboarding_status === "Rejected"
-                            ? "bg-rose-50 text-rose-700 border-rose-100"
-                            : "bg-amber-50 text-amber-700 border-amber-100"
-                        }
-                      `}
-                    >
-                      <span
-                        className={`w-1.5 h-1.5 rounded-full ${employee.onboarding_status === "Completed"
-                          ? "bg-emerald-500"
-                          : employee.onboarding_status === "Rejected"
-                            ? "bg-rose-500"
-                            : "bg-amber-500"
-                          }`}
-                      />
-                      {employee.onboarding_status || "Pending"}
-                    </span>
                   </td>
 
                   {/* Status Pill Badge */}
