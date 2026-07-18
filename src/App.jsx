@@ -84,6 +84,10 @@ import EmployeeLoginHistory from "./pages/employee/LoginHistory";
 
 // Recruitment //
 import ResumeAnalyser from "./pages/recruitment/ResumeAnalyser";
+import InterviewScheduler from "./pages/recruitment/InterviewScheduler";
+
+// Asset //
+import AssetPage from "./pages/asset/AssetPage";
 
 // ================= PROTECTED ROUTE =================
 function ProtectedRoute({ children, requiredRole }) {
@@ -146,6 +150,8 @@ function AppContent() {
     "/employee/resignation",
     "/employee/login-history",
     "/resume-analyser",
+    "/interview-scheduler",
+    "/assets",
   ];
 
   const hideLayout = authPages.includes(location.pathname);
@@ -497,6 +503,26 @@ function AppContent() {
           element={
             <ProtectedRoute requiredRole="company">
               <ResumeAnalyser />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* ================= INTERVIEW SCHEDULER ================= */}
+        <Route
+          path="/interview-scheduler"
+          element={
+            <ProtectedRoute requiredRole="company">
+              <InterviewScheduler />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* ================= ASSET MANAGEMENT ================= */}
+        <Route
+          path="/assets"
+          element={
+            <ProtectedRoute requiredRole="company">
+              <AssetPage />
             </ProtectedRoute>
           }
         />

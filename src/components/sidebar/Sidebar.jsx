@@ -18,6 +18,7 @@ import {
   ChevronsLeft,
   ChevronsRight,
   History,
+  Package,
 } from "lucide-react";
 
 export default function Sidebar({ collapsed: propCollapsed, setCollapsed: propSetCollapsed }) {
@@ -77,7 +78,10 @@ export default function Sidebar({ collapsed: propCollapsed, setCollapsed: propSe
 
   const recruitmentRoutes = [
     "/resume-analyser",
+    "/interview-scheduler",
   ];
+
+  const assetRoutes = ["/assets"];
 
   const loginHistoryRoutes = ["/login-history"];
 
@@ -93,6 +97,7 @@ export default function Sidebar({ collapsed: propCollapsed, setCollapsed: propSe
     if (leaveRoutes.includes(path)) return "leave";
     if (payrollRoutes.includes(path)) return "payroll";
     if (recruitmentRoutes.includes(path)) return "recruitment";
+    if (assetRoutes.includes(path)) return "assets";
     return null;
   });
 
@@ -112,6 +117,7 @@ export default function Sidebar({ collapsed: propCollapsed, setCollapsed: propSe
   const isPayrollActive = payrollRoutes.includes(location.pathname);
   const isRecruitmentActive = recruitmentRoutes.includes(location.pathname);
   const isLoginHistoryActive = loginHistoryRoutes.includes(location.pathname);
+  const isAssetActive = assetRoutes.includes(location.pathname);
   const companyLogoSrc = getCompanyLogoSrc(company);
   const companyName = company.company_name || "HRMS";
   const companySubtitle =
@@ -170,6 +176,7 @@ export default function Sidebar({ collapsed: propCollapsed, setCollapsed: propSe
     else if (leaveRoutes.includes(path)) setExpandedMenu("leave");
     else if (payrollRoutes.includes(path)) setExpandedMenu("payroll");
     else if (recruitmentRoutes.includes(path)) setExpandedMenu("recruitment");
+    else if (assetRoutes.includes(path)) setExpandedMenu("assets");
     else setExpandedMenu(null);
   }, [location.pathname, collapsed]);
 
@@ -536,9 +543,19 @@ export default function Sidebar({ collapsed: propCollapsed, setCollapsed: propSe
           {expandedMenu === "recruitment" && !collapsed && (
             <div className="ml-10 mt-1 flex flex-col gap-1 text-sm">
               <NavLink to="/resume-analyser" className={subMenuLinkClass}>Resume Analyser</NavLink>
+              <NavLink to="/interview-scheduler" className={subMenuLinkClass}>Interview Scheduling</NavLink>
             </div>
           )}
         </div>
+
+        {/* Assets */}
+        <NavLink to="/assets" className={menuClass}>
+          <div className="flex items-center gap-3 min-w-0">
+            <Package size={18} />
+            {!collapsed && <span className="truncate">Assets</span>}
+          </div>
+          {!collapsed && <ChevronRight size={14} className="text-slate-400 group-hover:text-white transition duration-150" />}
+        </NavLink>
 
         {/* Login History */}
         <NavLink to="/login-history" className={menuClass}>
