@@ -406,7 +406,7 @@ function AssetsTab({ assets, branches, onRefresh }) {
 // ====================== ASSIGN TAB ============================
 // ═══════════════════════════════════════════════════════════════
 function AssignTab({ assignments, assets, employees, onRefresh }) {
-  const emptyForm = { user_id: "", asset_id: "" };
+  const emptyForm = { user_id: "", asset_id: "", assign_date: "" };
   const [form, setForm] = useState(emptyForm);
   const [editId, setEditId] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -425,7 +425,15 @@ function AssignTab({ assignments, assets, employees, onRefresh }) {
     : assets.filter((a) => !assignedAssetIds.has(a.id));
 
   const openAdd = () => { setForm(emptyForm); setEditId(null); setShowModal(true); };
-  const openEdit = (item) => { setForm({ user_id: item.user_id || "", asset_id: item.asset_id || "" }); setEditId(item.id); setShowModal(true); };
+  const openEdit = (item) => {
+    setForm({
+      user_id: item.user_id || "",
+      asset_id: item.asset_id || "",
+      assign_date: item.assign_date ? item.assign_date.slice(0, 10) : "",
+    });
+    setEditId(item.id);
+    setShowModal(true);
+  };
 
   const handleSave = async () => {
     if (!form.user_id || !form.asset_id) return alert("Please select both an employee and an asset");
@@ -467,7 +475,7 @@ function AssignTab({ assignments, assets, employees, onRefresh }) {
                 <th className={thCls}>Asset</th>
                 <th className={thCls}>Vendor</th>
                 <th className={thCls}>Price (₹)</th>
-                <th className={thCls}>Assigned On</th>
+                <th className={thCls}>Assign Date</th>
                 <th className="px-6 py-4 text-center text-xs font-semibold text-slate-700 uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
@@ -490,7 +498,7 @@ function AssignTab({ assignments, assets, employees, onRefresh }) {
                   <td className={tdCls}>
                     {item.price ? <span className="font-semibold text-emerald-600">₹{parseFloat(item.price).toLocaleString("en-IN")}</span> : <span className="text-slate-300">—</span>}
                   </td>
-                  <td className={tdCls}>{item.created_at ? new Date(item.created_at).toLocaleDateString() : "—"}</td>
+                  <td className={tdCls}>{item.assign_date ? item.assign_date.slice(0, 10) : <span className="text-slate-300">—</span>}</td>
                   <td className="px-6 py-5">
                     <div className="flex justify-center gap-2">
                       <button onClick={() => openEdit(item)} className="w-9 h-9 rounded-xl bg-amber-100 text-amber-600 hover:bg-amber-500 hover:text-white transition flex items-center justify-center"><FaEdit size={13} /></button>
@@ -525,6 +533,14 @@ function AssignTab({ assignments, assets, employees, onRefresh }) {
             ))}
           </select>
           {availableAssets.length === 0 && !editId && <p className="text-xs text-amber-500 mt-1">⚠ All assets are already assigned.</p>}
+        </Field>
+        <Field label="Assign Date">
+          <input
+            type="date"
+            className={inputCls}
+            value={form.assign_date}
+            onChange={(e) => setForm({ ...form, assign_date: e.target.value })}
+          />
         </Field>
       </Modal>
     </>

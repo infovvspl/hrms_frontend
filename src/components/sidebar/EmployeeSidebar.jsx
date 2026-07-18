@@ -201,7 +201,7 @@ export default function EmployeeSidebar({ collapsed: propCollapsed, setCollapsed
     { name: "Payroll", path: "/employee/payroll", icon: CreditCard },
     { name: "Performance", path: "#performance", icon: TrendingUp },
     { name: "Loan & Advance", path: "#loan", icon: Coins },
-    { name: "Asset Management", path: "#assets", icon: Laptop },
+    { name: "Asset Management", path: "/employee/assets", icon: Laptop },
     { name: "Document Management", path: "/employee/documents", icon: Folder },
     { name: "Login History", path: "/employee/login-history", icon: History },
     { name: "Resignation", path: "/employee/resignation", icon: UserMinus },

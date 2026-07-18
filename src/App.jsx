@@ -88,6 +88,7 @@ import InterviewScheduler from "./pages/recruitment/InterviewScheduler";
 
 // Asset //
 import AssetPage from "./pages/asset/AssetPage";
+import EmployeeAsset from "./pages/employee/EmployeeAsset";
 
 // ================= PROTECTED ROUTE =================
 function ProtectedRoute({ children, requiredRole }) {
@@ -152,6 +153,7 @@ function AppContent() {
     "/resume-analyser",
     "/interview-scheduler",
     "/assets",
+    "/employee/assets",
   ];
 
   const hideLayout = authPages.includes(location.pathname);
@@ -523,6 +525,16 @@ function AppContent() {
           element={
             <ProtectedRoute requiredRole="company">
               <AssetPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* ================= EMPLOYEE ASSET VIEW ================= */}
+        <Route
+          path="/employee/assets"
+          element={
+            <ProtectedRoute requiredRole="employee">
+              <EmployeeAsset />
             </ProtectedRoute>
           }
         />
