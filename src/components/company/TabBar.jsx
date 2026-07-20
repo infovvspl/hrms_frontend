@@ -6,6 +6,7 @@ import {
   BadgeCheck,
   LayoutGrid,
   Network,
+  Lock,
 } from "lucide-react";
 
 const TABS = [
@@ -14,6 +15,7 @@ const TABS = [
   { key: "role", label: "Role", icon: ShieldCheck },
   { key: "designation", label: "Designation", icon: BadgeCheck },
   { key: "department", label: "Department", icon: LayoutGrid },
+  { key: "permissions", label: "Permissions", icon: Lock },
   { key: "employee-tree", label: "Org Tree", icon: Network },
 ];
 

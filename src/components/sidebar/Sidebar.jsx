@@ -19,6 +19,7 @@ import {
   ChevronsRight,
   History,
   Package,
+  Plane,
 } from "lucide-react";
 
 export default function Sidebar({ collapsed: propCollapsed, setCollapsed: propSetCollapsed }) {
@@ -356,6 +357,7 @@ export default function Sidebar({ collapsed: propCollapsed, setCollapsed: propSe
               <NavLink to="/role" className={subMenuLinkClass}>Role</NavLink>
               <NavLink to="/designation" className={subMenuLinkClass}>Designation</NavLink>
               <NavLink to="/department" className={subMenuLinkClass}>Department</NavLink>
+              <NavLink to="/permissions" className={subMenuLinkClass}>Permissions</NavLink>
             </div>
           )}
         </div>
@@ -553,6 +555,15 @@ export default function Sidebar({ collapsed: propCollapsed, setCollapsed: propSe
           <div className="flex items-center gap-3 min-w-0">
             <Package size={18} />
             {!collapsed && <span className="truncate">Assets</span>}
+          </div>
+          {!collapsed && <ChevronRight size={14} className="text-slate-400 group-hover:text-white transition duration-150" />}
+        </NavLink>
+
+        {/* Travel Reimbursement */}
+        <NavLink to="/travel" className={menuClass}>
+          <div className="flex items-center gap-3 min-w-0">
+            <Plane size={18} />
+            {!collapsed && <span className="truncate">Travel Reimbursement</span>}
           </div>
           {!collapsed && <ChevronRight size={14} className="text-slate-400 group-hover:text-white transition duration-150" />}
         </NavLink>

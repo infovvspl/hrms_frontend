@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -5,6 +6,7 @@ import {
   useLocation,
   Navigate,
 } from "react-router-dom";
+import axios from "axios";
 
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -46,6 +48,7 @@ import Branch from "./pages/Branch";
 import Role from "./pages/Role";
 import Designation from "./pages/Designation";
 import Department from "./pages/Department";
+import PermissionPage from "./pages/PermissionPage";
 import EmployeeTree from "./pages/EmployeeTree";
 
 
@@ -89,11 +92,37 @@ import InterviewScheduler from "./pages/recruitment/InterviewScheduler";
 // Asset //
 import AssetPage from "./pages/asset/AssetPage";
 import EmployeeAsset from "./pages/employee/EmployeeAsset";
+import TravelPage from "./pages/travel/TravelPage";
+import EmployeeTravel from "./pages/employee/EmployeeTravel";
 
 // ================= PROTECTED ROUTE =================
-function ProtectedRoute({ children, requiredRole }) {
+function ProtectedRoute({ children, requiredRole, requiredPermission }) {
   const token = localStorage.getItem("token");
   const role = localStorage.getItem("role") || "company";
+  const [permissions, setPermissions] = useState(null);
+  const [loading, setLoading] = useState(requiredPermission && token ? true : false);
+
+  useEffect(() => {
+    if (!requiredPermission || !token) return;
+
+    const fetchPermissions = async () => {
+      try {
+        const res = await axios.get(
+          `${import.meta.env.VITE_SERVER_ADDRESS || "http://localhost:5000"}/api/permissions/my-permissions`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        const list = res.data.permissions || [];
+        setPermissions(new Set(list));
+      } catch (err) {
+        console.error("Error checking route permission:", err);
+        setPermissions(new Set());
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPermissions();
+  }, [token, requiredPermission]);
 
   if (!token) {
     return <Navigate to="/login" replace />;
@@ -101,6 +130,20 @@ function ProtectedRoute({ children, requiredRole }) {
 
   if (requiredRole && role !== requiredRole) {
     return <Navigate to={role === "employee" ? "/employee/dashboard" : "/dashboard"} replace />;
+  }
+
+  if (requiredPermission) {
+    if (loading) {
+      return (
+        <div className="min-h-screen bg-slate-100 flex items-center justify-center">
+          <div className="w-12 h-12 rounded-full border-4 border-indigo-200 border-t-indigo-600 animate-spin" />
+        </div>
+      );
+    }
+    if (permissions && !permissions.has(requiredPermission)) {
+      alert(`Access Denied: You do not have permission to access this module ("${requiredPermission}").`);
+      return <Navigate to={role === "employee" ? "/employee/dashboard" : "/dashboard"} replace />;
+    }
   }
 
   return children;
@@ -154,6 +197,9 @@ function AppContent() {
     "/interview-scheduler",
     "/assets",
     "/employee/assets",
+    "/travel",
+    "/employee/travel",
+    "/permissions",
   ];
 
   const hideLayout = authPages.includes(location.pathname);
@@ -213,6 +259,14 @@ function AppContent() {
           element={
             <ProtectedRoute requiredRole="company">
               <Department />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/permissions"
+          element={
+            <ProtectedRoute requiredRole="company">
+              <PermissionPage />
             </ProtectedRoute>
           }
         />
@@ -289,7 +343,7 @@ function AppContent() {
         <Route
           path="/employee/dashboard"
           element={
-            <ProtectedRoute requiredRole="employee">
+            <ProtectedRoute requiredRole="employee" requiredPermission="Dashboard View">
               <EmployeeDashboard />
             </ProtectedRoute>
           }
@@ -297,7 +351,7 @@ function AppContent() {
         <Route
           path="/employee/leave"
           element={
-            <ProtectedRoute requiredRole="employee">
+            <ProtectedRoute requiredRole="employee" requiredPermission="Leave Management">
               <EmployeeLeave />
             </ProtectedRoute>
           }
@@ -305,7 +359,7 @@ function AppContent() {
         <Route
           path="/employee/leave/apply"
           element={
-            <ProtectedRoute requiredRole="employee">
+            <ProtectedRoute requiredRole="employee" requiredPermission="Leave Management">
               <EmployeeLeaveApply />
             </ProtectedRoute>
           }
@@ -313,7 +367,7 @@ function AppContent() {
         <Route
           path="/employee/leave/history"
           element={
-            <ProtectedRoute requiredRole="employee">
+            <ProtectedRoute requiredRole="employee" requiredPermission="Leave Management">
               <EmployeeLeaveHistory />
             </ProtectedRoute>
           }
@@ -329,7 +383,7 @@ function AppContent() {
         <Route
           path="/employee/attendance"
           element={
-            <ProtectedRoute requiredRole="employee">
+            <ProtectedRoute requiredRole="employee" requiredPermission="Attendance Management">
               <EmployeeAttendance />
             </ProtectedRoute>
           }
@@ -337,7 +391,7 @@ function AppContent() {
         <Route
           path="/employee/documents"
           element={
-            <ProtectedRoute requiredRole="employee">
+            <ProtectedRoute requiredRole="employee" requiredPermission="Document Manager">
               <EmployeeDocuments />
             </ProtectedRoute>
           }
@@ -345,7 +399,7 @@ function AppContent() {
         <Route
           path="/employee/payroll"
           element={
-            <ProtectedRoute requiredRole="employee">
+            <ProtectedRoute requiredRole="employee" requiredPermission="Payroll & Invoicing">
               <EmployeePayroll />
             </ProtectedRoute>
           }
@@ -493,7 +547,7 @@ function AppContent() {
         <Route
           path="/employee/login-history"
           element={
-            <ProtectedRoute requiredRole="employee">
+            <ProtectedRoute requiredRole="employee" requiredPermission="Login History logs">
               <EmployeeLoginHistory />
             </ProtectedRoute>
           }
@@ -533,8 +587,26 @@ function AppContent() {
         <Route
           path="/employee/assets"
           element={
-            <ProtectedRoute requiredRole="employee">
+            <ProtectedRoute requiredRole="employee" requiredPermission="Asset Management">
               <EmployeeAsset />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* ================= TRAVEL REIMBURSEMENT ================= */}
+        <Route
+          path="/travel"
+          element={
+            <ProtectedRoute requiredRole="company">
+              <TravelPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/employee/travel"
+          element={
+            <ProtectedRoute requiredRole="employee" requiredPermission="Travel Reimbursement">
+              <EmployeeTravel />
             </ProtectedRoute>
           }
         />

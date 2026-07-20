@@ -85,7 +85,9 @@ function TreeNode({
         <div className="min-w-0 text-left">
           <p className="text-xs font-black text-slate-800 truncate leading-tight">{node.name}</p>
           <p className="text-[10px] font-bold text-indigo-600 mt-0.5 truncate">{node.designation_name || "Employee"}</p>
-          <p className="text-[9px] text-slate-400 font-semibold truncate mt-0.5">{node.department_name || "N/A"}</p>
+          <p className="text-[9px] text-slate-400 font-semibold truncate mt-0.5">
+            {node.department_name || "N/A"}{node.branch_name ? ` • ${node.branch_name}` : ""}
+          </p>
           
           {totalReportsCount > 0 && (
             <div className="flex items-center gap-1 mt-1 text-[8.5px] font-bold text-slate-500">
