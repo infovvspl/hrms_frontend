@@ -16,6 +16,7 @@ import {
   BadgeCheck,
   LayoutGrid,
   Network,
+  Lock,
 } from "lucide-react";
 
 // ─── Import the other pages ────────────────────────────────────────────────────
@@ -23,6 +24,7 @@ import Branch from "../pages/Branch";
 import Role from "../pages/Role";
 import Designation from "../pages/Designation";
 import Department from "../pages/Department";
+import PermissionPage from "../pages/PermissionPage";
 import EmployeeTree from "../pages/EmployeeTree";
 import { getCompanyInitial, getCompanyLogoSrc } from "../utils/companyLogo";
 
@@ -33,6 +35,7 @@ const TABS = [
   { key: "role", label: "Role", icon: ShieldCheck },
   { key: "designation", label: "Designation", icon: BadgeCheck },
   { key: "department", label: "Department", icon: LayoutGrid },
+  { key: "permissions", label: "Permissions", icon: Lock },
   { key: "employee-tree", label: "Org Tree", icon: Network },
 ];
 
@@ -58,9 +61,11 @@ export default function Company() {
           ? "designation"
           : location.pathname === "/department"
             ? "department"
-            : location.pathname === "/employee-tree"
-              ? "employee-tree"
-              : "company";
+            : location.pathname === "/permissions"
+              ? "permissions"
+              : location.pathname === "/employee-tree"
+                ? "employee-tree"
+                : "company";
 
   // Company state
   const [openCompany, setOpenCompany] = useState(false);
@@ -193,6 +198,15 @@ export default function Company() {
       <DashboardLayout>
         <TabBar activeTab={activeTab} setActiveTab={setActiveTab} />
         <Department asTab />
+      </DashboardLayout>
+    );
+  }
+
+  if (activeTab === "permissions") {
+    return (
+      <DashboardLayout>
+        <TabBar activeTab={activeTab} setActiveTab={setActiveTab} />
+        <PermissionPage asTab />
       </DashboardLayout>
     );
   }

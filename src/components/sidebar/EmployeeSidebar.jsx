@@ -23,6 +23,7 @@ import {
   ChevronDown,
   LogOut,
   History,
+  Plane,
 } from "lucide-react";
 
 export default function EmployeeSidebar({ collapsed: propCollapsed, setCollapsed: propSetCollapsed }) {
@@ -178,6 +179,27 @@ export default function EmployeeSidebar({ collapsed: propCollapsed, setCollapsed
       }`;
   };
 
+  const [permissions, setPermissions] = useState(new Set());
+  const [loadingPerms, setLoadingPerms] = useState(true);
+
+  useEffect(() => {
+    const fetchPermissions = async () => {
+      if (!token) return;
+      try {
+        const res = await axios.get(
+          `${import.meta.env.VITE_SERVER_ADDRESS || "http://localhost:5000"}/api/permissions/my-permissions`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        setPermissions(new Set(res.data.permissions || []));
+      } catch (error) {
+        console.error("Error fetching permissions in EmployeeSidebar:", error);
+      } finally {
+        setLoadingPerms(false);
+      }
+    };
+    fetchPermissions();
+  }, [token]);
+
   const getParentClass = (isActive) => {
     return `flex items-center ${collapsed ? "w-10 h-10 justify-center p-0" : "w-full justify-between gap-3 px-3 py-3"
       } rounded-xl transition-all duration-300 group cursor-pointer ${isActive
@@ -194,16 +216,18 @@ export default function EmployeeSidebar({ collapsed: propCollapsed, setCollapsed
 
   // Complete list of menu items reverted back to exactly match screenshot names
   const menuItems = [
-    { name: "Dashboard", path: "/employee/dashboard", icon: LayoutDashboard },
+    { name: "Dashboard", path: "/employee/dashboard", icon: LayoutDashboard, permission: "Dashboard View" },
     { name: "Employee Management", path: "/employee/profile", icon: Users },
-    { name: "Recruitment", path: "#recruitment", icon: UserPlus },
-    { name: "Attendance", path: "/employee/attendance", icon: Clock },
-    { name: "Payroll", path: "/employee/payroll", icon: CreditCard },
+    { name: "Recruitment", path: "#recruitment", icon: UserPlus, permission: "Recruitment & Screening" },
+    { name: "Attendance", path: "/employee/attendance", icon: Clock, permission: "Attendance Management" },
+    { name: "Leave Management", path: "/employee/leave", icon: Calendar, permission: "Leave Management", isLeave: true },
+    { name: "Payroll", path: "/employee/payroll", icon: CreditCard, permission: "Payroll & Invoicing" },
     { name: "Performance", path: "#performance", icon: TrendingUp },
     { name: "Loan & Advance", path: "#loan", icon: Coins },
-    { name: "Asset Management", path: "/employee/assets", icon: Laptop },
-    { name: "Document Management", path: "/employee/documents", icon: Folder },
-    { name: "Login History", path: "/employee/login-history", icon: History },
+    { name: "Asset Management", path: "/employee/assets", icon: Laptop, permission: "Asset Management" },
+    { name: "Travel Reimbursement", path: "/employee/travel", icon: Plane, permission: "Travel Reimbursement" },
+    { name: "Document Management", path: "/employee/documents", icon: Folder, permission: "Document Manager" },
+    { name: "Login History", path: "/employee/login-history", icon: History, permission: "Login History logs" },
     { name: "Resignation", path: "/employee/resignation", icon: UserMinus },
     { name: "Reports & Analytics", path: "#reports", icon: BarChart3 },
     { name: "Settings", path: "#settings", icon: Settings },
@@ -283,44 +307,49 @@ export default function EmployeeSidebar({ collapsed: propCollapsed, setCollapsed
       {/* Menu List */}
       <div className="flex-1 p-3 space-y-1.5 overflow-y-auto custom-scrollbar">
         {menuItems.map((item) => {
+          // Check permissions
+          if (item.permission && !loadingPerms && !permissions.has(item.permission)) {
+            return null;
+          }
+
           const Icon = item.icon;
           const isMock = item.path.startsWith("#");
 
-          const isAfterAttendance = item.name === "Payroll";
+          if (item.isLeave) {
+            return (
+              <div key="Leave" className="space-y-1.5">
+                <button
+                  onClick={() => {
+                    if (!collapsed) {
+                      setExpandedMenu(prev => prev === "leave" ? null : "leave");
+                    }
+                    navigate("/employee/leave");
+                  }}
+                  className={getParentClass(leaveRoutes.includes(location.pathname))}
+                >
+                  <div className="flex items-center gap-3 min-w-0">
+                    <Calendar size={18} />
+                    {!collapsed && <span className="truncate">Leave Management</span>}
+                  </div>
+                  {!collapsed && (
+                    <span className="text-slate-400 group-hover:text-white transition duration-150">
+                      {expandedMenu === "leave" ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                    </span>
+                  )}
+                </button>
+
+                {expandedMenu === "leave" && !collapsed && (
+                  <div className="ml-10 mt-1 flex flex-col gap-1 text-sm">
+                    <NavLink to="/employee/leave/apply" className={subMenuLinkClass}>Apply Leave</NavLink>
+                    <NavLink to="/employee/leave/history" className={subMenuLinkClass}>Leave History</NavLink>
+                  </div>
+                )}
+              </div>
+            );
+          }
 
           return (
             <div key={item.name} className="space-y-1.5">
-              {isAfterAttendance && (
-                <div>
-                  <button
-                    onClick={() => {
-                      if (!collapsed) {
-                        setExpandedMenu(prev => prev === "leave" ? null : "leave");
-                      }
-                      navigate("/employee/leave");
-                    }}
-                    className={getParentClass(leaveRoutes.includes(location.pathname))}
-                  >
-                    <div className="flex items-center gap-3 min-w-0">
-                      <Calendar size={18} />
-                      {!collapsed && <span className="truncate">Leave Management</span>}
-                    </div>
-                    {!collapsed && (
-                      <span className="text-slate-400 group-hover:text-white transition duration-150">
-                        {expandedMenu === "leave" ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
-                      </span>
-                    )}
-                  </button>
-
-                  {expandedMenu === "leave" && !collapsed && (
-                    <div className="ml-10 mt-1 flex flex-col gap-1 text-sm">
-                      <NavLink to="/employee/leave/apply" className={subMenuLinkClass}>Apply Leave</NavLink>
-                      <NavLink to="/employee/leave/history" className={subMenuLinkClass}>Leave History</NavLink>
-                    </div>
-                  )}
-                </div>
-              )}
-
               {isMock ? (
                 <button
                   onClick={() => alert(`${item.name} module is currently limited to Administrators.`)}

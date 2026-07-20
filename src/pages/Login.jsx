@@ -61,7 +61,7 @@ export default function Login() {
     const ua = navigator.userAgent;
     let browser = "Unknown";
     let os = "Unknown";
-    
+
     if (ua.includes("Firefox")) browser = "Firefox";
     else if (ua.includes("SamsungBrowser")) browser = "Samsung Browser";
     else if (ua.includes("Opera") || ua.includes("OPR")) browser = "Opera";
@@ -69,13 +69,13 @@ export default function Login() {
     else if (ua.includes("Edge") || ua.includes("Edg")) browser = "Edge";
     else if (ua.includes("Chrome")) browser = "Chrome";
     else if (ua.includes("Safari")) browser = "Safari";
-    
+
     if (ua.includes("Win")) os = "Windows";
     else if (ua.includes("Mac")) os = "MacOS";
     else if (ua.includes("X11") || ua.includes("Linux")) os = "Linux";
     else if (ua.includes("Android")) os = "Android";
     else if (ua.includes("like Mac OS")) os = "iOS";
-    
+
     return { browser, os, device_info: ua };
   };
 
