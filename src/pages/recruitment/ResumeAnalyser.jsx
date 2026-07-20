@@ -35,7 +35,7 @@ function ScoreBadge({ score }) {
   const color = getScoreColor(score);
   return (
     <div className="flex flex-col items-center gap-1">
-      <div 
+      <div
         className="w-[70px] h-[70px] rounded-full flex items-center justify-center relative"
         style={{
           background: `conic-gradient(${color.bg} ${score * 3.6}deg, #e2e8f0 ${score * 3.6}deg)`
@@ -46,7 +46,7 @@ function ScoreBadge({ score }) {
           <span className="text-[8px] text-slate-400 -mt-1">/ 100</span>
         </div>
       </div>
-      <span 
+      <span
         className="text-[11px] font-semibold px-2 py-0.5 rounded-full"
         style={{ color: color.text, backgroundColor: color.light }}
       >
@@ -78,9 +78,9 @@ function BreakdownBar({ label, value, icon: Icon }) {
         <span className="text-xs font-bold" style={{ color }}>{value}%</span>
       </div>
       <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
-        <div 
+        <div
           className="h-full rounded-full transition-all duration-500 ease-out"
-          style={{ width: `${value}%`, backgroundColor: color }} 
+          style={{ width: `${value}%`, backgroundColor: color }}
         />
       </div>
     </div>
@@ -93,18 +93,16 @@ function ResultCard({ result, rank, selected, onToggle }) {
   const color = getScoreColor(result.score);
 
   return (
-    <div className={`bg-white border rounded-2xl overflow-hidden transition-all duration-200 mb-4 ${
-      selected ? "border-indigo-500 shadow-[0_0_0_1px_rgba(99,102,241,1)] shadow-indigo-100" : "border-slate-200 shadow-sm hover:shadow-md"
-    }`}>
+    <div className={`bg-white border rounded-2xl overflow-hidden transition-all duration-200 mb-4 ${selected ? "border-indigo-500 shadow-[0_0_0_1px_rgba(99,102,241,1)] shadow-indigo-100" : "border-slate-200 shadow-sm hover:shadow-md"
+      }`}>
       {/* Card Header */}
-      <div 
+      <div
         className="flex items-center gap-4 p-5 cursor-pointer"
         onClick={() => setExpanded(!expanded)}
       >
         {/* Rank Badge */}
-        <div className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 ${
-          rank <= 3 ? "bg-gradient-to-br from-amber-400 to-orange-500 text-white shadow-sm" : "bg-slate-100 border border-slate-200 text-slate-500 font-bold text-sm"
-        }`}>
+        <div className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 ${rank <= 3 ? "bg-gradient-to-br from-amber-400 to-orange-500 text-white shadow-sm" : "bg-slate-100 border border-slate-200 text-slate-500 font-bold text-sm"
+          }`}>
           {rank <= 3 ? <Star size={16} fill="currentColor" /> : `#${rank}`}
         </div>
 
@@ -149,11 +147,10 @@ function ResultCard({ result, rank, selected, onToggle }) {
           {/* Select checkbox */}
           <button
             onClick={() => onToggle(result.filename)}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-sm font-semibold transition-colors ${
-              selected 
-                ? "bg-indigo-50 text-indigo-700 border border-indigo-200" 
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-sm font-semibold transition-colors ${selected
+                ? "bg-indigo-50 text-indigo-700 border border-indigo-200"
                 : "bg-white text-slate-500 border border-slate-200 hover:bg-slate-50 hover:text-slate-700"
-            }`}
+              }`}
           >
             {selected ? <CheckCircle size={15} className="text-indigo-600" /> : <XCircle size={15} />}
             {selected ? "Selected" : "Select"}
@@ -431,9 +428,8 @@ export default function ResumeAnalyser() {
                 onDragLeave={() => setDragOver(false)}
                 onDrop={onDrop}
                 onClick={() => fileInputRef.current?.click()}
-                className={`border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all duration-200 ${
-                  dragOver ? "border-indigo-500 bg-indigo-50/50 scale-[1.01]" : "border-slate-300 hover:border-indigo-400 hover:bg-slate-50"
-                }`}
+                className={`border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all duration-200 ${dragOver ? "border-indigo-500 bg-indigo-50/50 scale-[1.01]" : "border-slate-300 hover:border-indigo-400 hover:bg-slate-50"
+                  }`}
               >
                 <Upload size={32} className={`mx-auto mb-3 transition-colors ${dragOver ? "text-indigo-600" : "text-slate-400"}`} />
                 <p className={`m-0 mb-1 text-sm font-bold transition-colors ${dragOver ? "text-indigo-700" : "text-slate-600"}`}>
@@ -457,7 +453,7 @@ export default function ResumeAnalyser() {
                     <p className="m-0 text-xs font-bold text-slate-500 uppercase tracking-wider">
                       Selected Files ({files.length})
                     </p>
-                    <button 
+                    <button
                       onClick={() => setFiles([])}
                       className="text-xs text-red-500 hover:text-red-700 font-semibold bg-transparent border-none cursor-pointer"
                     >
@@ -500,11 +496,10 @@ export default function ResumeAnalyser() {
             <button
               onClick={analyse}
               disabled={loading}
-              className={`w-full p-4 rounded-2xl text-white text-base font-bold flex items-center justify-center gap-2.5 transition-all duration-300 ${
-                loading
+              className={`w-full p-4 rounded-2xl text-white text-base font-bold flex items-center justify-center gap-2.5 transition-all duration-300 ${loading
                   ? "bg-slate-300 cursor-not-allowed"
                   : "bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 hover:shadow-lg hover:shadow-indigo-200 hover:-translate-y-0.5 cursor-pointer"
-              }`}
+                }`}
             >
               {loading ? (
                 <>
@@ -597,11 +592,10 @@ export default function ResumeAnalyser() {
                   <button
                     onClick={exportCSV}
                     disabled={selected.size === 0}
-                    className={`flex-1 py-2.5 px-4 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-sm ${
-                      selected.size > 0 
-                        ? "bg-emerald-600 hover:bg-emerald-700 text-white border border-emerald-700 cursor-pointer" 
+                    className={`flex-1 py-2.5 px-4 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-sm ${selected.size > 0
+                        ? "bg-emerald-600 hover:bg-emerald-700 text-white border border-emerald-700 cursor-pointer"
                         : "bg-slate-100 border border-slate-200 text-slate-400 cursor-not-allowed"
-                    }`}
+                      }`}
                   >
                     <Download size={16} />
                     Export ({selected.size})
@@ -609,11 +603,10 @@ export default function ResumeAnalyser() {
                   <button
                     onClick={saveSelections}
                     disabled={saveLoading}
-                    className={`flex-1 py-2.5 px-4 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-sm ${
-                      saveLoading
+                    className={`flex-1 py-2.5 px-4 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-sm ${saveLoading
                         ? "bg-slate-100 border border-slate-200 text-slate-400 cursor-not-allowed"
                         : "bg-indigo-600 hover:bg-indigo-700 text-white border border-indigo-700 cursor-pointer"
-                    }`}
+                      }`}
                   >
                     <CheckCircle size={16} />
                     {saveLoading ? "Saving..." : "Save Shortlist"}
@@ -622,11 +615,10 @@ export default function ResumeAnalyser() {
 
                 {/* Save feedback */}
                 {saveSuccess && (
-                  <div className={`mb-4 px-4 py-3 rounded-xl text-sm font-semibold border ${
-                    saveSuccess.startsWith("✅")
+                  <div className={`mb-4 px-4 py-3 rounded-xl text-sm font-semibold border ${saveSuccess.startsWith("✅")
                       ? "bg-emerald-50 border-emerald-200 text-emerald-700"
                       : "bg-red-50 border-red-200 text-red-600"
-                  }`}>
+                    }`}>
                     {saveSuccess}
                   </div>
                 )}
