@@ -104,57 +104,56 @@ export function EmployeeActionBar({
   };
 
   return (
-    <div className="bg-white rounded-3xl p-5 border border-slate-100 shadow-[0_10px_30px_rgba(0,0,0,0.03)] space-y-4">
-      <div className="flex flex-col xl:flex-row gap-4 xl:items-center xl:justify-between">
+    <div className="bg-white border border-slate-100 rounded-[2rem] p-3 shadow-[0_2px_10px_rgba(0,0,0,0.02)] space-y-3">
+      {/* Unified Top Control Bar */}
+      <div className="flex flex-col xl:flex-row items-center gap-4 justify-between w-full">
         
         {/* Left Side: Search with help icon */}
-        <div className="relative flex-1 min-w-[280px]">
-          <div className="flex items-center w-full relative">
-            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
-              <FaSearch size={14} />
-            </span>
-            <input
-              type="text"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search by name, email, department, branch..."
-              className="w-full bg-slate-50 text-slate-800 placeholder-slate-400 pl-11 pr-20 py-3 rounded-2xl border border-slate-100 outline-none focus:bg-white focus:border-indigo-500 transition-all duration-200 text-xs font-semibold shadow-sm focus:ring-4 focus:ring-indigo-500/5"
-            />
-            
-            {/* Info and Clear controls */}
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
-              {search && (
-                <button
-                  onClick={() => setSearch("")}
-                  className="p-1 rounded-full text-slate-400 hover:text-slate-600 cursor-pointer flex items-center justify-center"
-                  title="Clear search"
-                >
-                  <FaTimes size={10} />
-                </button>
+        <div className="relative w-full xl:max-w-md">
+          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
+            <FaSearch size={14} />
+          </span>
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search by name, email, dep..."
+            className="w-full bg-slate-50/80 border border-slate-200 hover:border-slate-300 focus:bg-white pl-10 pr-20 py-2.5 rounded-full text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 text-xs font-semibold transition-all duration-200"
+          />
+          
+          {/* Info and Clear controls */}
+          <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
+            {search && (
+              <button
+                onClick={() => setSearch("")}
+                className="p-1 rounded-full text-slate-400 hover:text-slate-600 cursor-pointer flex items-center justify-center"
+                title="Clear search"
+              >
+                <FaTimes size={10} />
+              </button>
+            )}
+            <div className="relative flex items-center">
+              <button
+                onMouseEnter={() => setShowTooltip(true)}
+                onMouseLeave={() => setShowTooltip(false)}
+                onClick={() => setShowTooltip(!showTooltip)}
+                className="p-1 text-slate-400 hover:text-slate-600 cursor-pointer flex items-center justify-center"
+                aria-label="Search parameters"
+              >
+                <FaInfoCircle size={14} />
+              </button>
+              {showTooltip && (
+                <div className="absolute right-0 bottom-full mb-2.5 w-64 p-3 bg-slate-900 text-white text-[10px] leading-relaxed rounded-xl shadow-xl z-50 pointer-events-none">
+                  <p className="font-bold border-b border-white/10 pb-1 mb-1 text-[11px]">Search Fields Included:</p>
+                  <ul className="list-disc pl-3.5 space-y-0.5 font-medium text-white/80">
+                    <li>First, Middle & Last Names</li>
+                    <li>Personal & Work Emails</li>
+                    <li>Branch Location & Address</li>
+                    <li>Department & Designation</li>
+                    <li>Mobile/Work Phone numbers</li>
+                  </ul>
+                </div>
               )}
-              <div className="relative flex items-center">
-                <button
-                  onMouseEnter={() => setShowTooltip(true)}
-                  onMouseLeave={() => setShowTooltip(false)}
-                  onClick={() => setShowTooltip(!showTooltip)}
-                  className="p-1 text-slate-400 hover:text-slate-600 cursor-pointer flex items-center justify-center"
-                  aria-label="Search parameters"
-                >
-                  <FaInfoCircle size={14} />
-                </button>
-                {showTooltip && (
-                  <div className="absolute right-0 bottom-full mb-2.5 w-64 p-3 bg-slate-900 text-white text-[10px] leading-relaxed rounded-xl shadow-xl z-50 pointer-events-none">
-                    <p className="font-bold border-b border-white/10 pb-1 mb-1 text-[11px]">Search Fields Included:</p>
-                    <ul className="list-disc pl-3.5 space-y-0.5 font-medium text-white/80">
-                      <li>First, Middle & Last Names</li>
-                      <li>Personal & Work Emails</li>
-                      <li>Branch Location & Address</li>
-                      <li>Department & Designation</li>
-                      <li>Mobile/Work Phone numbers</li>
-                    </ul>
-                  </div>
-                )}
-              </div>
             </div>
           </div>
         </div>
@@ -163,11 +162,11 @@ export function EmployeeActionBar({
         <div className="flex flex-wrap items-center gap-3 w-full xl:w-auto xl:justify-end">
           
           {/* Department Filter */}
-          <div className="relative w-full sm:w-44">
+          <div className="relative">
             <select
               value={selectedDepartment}
               onChange={(e) => setSelectedDepartment(e.target.value)}
-              className="w-full pl-4 pr-10 py-3 rounded-2xl bg-slate-50 text-slate-700 text-xs font-bold border border-slate-100 outline-none appearance-none cursor-pointer transition-all duration-200 focus:bg-white focus:border-indigo-500"
+              className="appearance-none bg-slate-50/80 border border-slate-200 hover:border-slate-300 text-slate-600 px-5 py-2.5 pr-9 rounded-full text-xs font-bold outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all cursor-pointer min-w-[140px]"
             >
               <option value="">All Departments</option>
               {departments.map((dept) => (
@@ -184,11 +183,11 @@ export function EmployeeActionBar({
           </div>
 
           {/* Branch Filter */}
-          <div className="relative w-full sm:w-44">
+          <div className="relative">
             <select
               value={selectedBranch}
               onChange={(e) => setSelectedBranch(e.target.value)}
-              className="w-full pl-4 pr-10 py-3 rounded-2xl bg-slate-50 text-slate-700 text-xs font-bold border border-slate-100 outline-none appearance-none cursor-pointer transition-all duration-200 focus:bg-white focus:border-indigo-500"
+              className="appearance-none bg-slate-50/80 border border-slate-200 hover:border-slate-300 text-slate-600 px-5 py-2.5 pr-9 rounded-full text-xs font-bold outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all cursor-pointer min-w-[140px]"
             >
               <option value="">All Branches</option>
               {branches.map((b) => (
@@ -207,7 +206,7 @@ export function EmployeeActionBar({
           {/* Export to CSV */}
           <button
             onClick={onExportClick}
-            className="flex items-center justify-center gap-2 w-full sm:w-auto px-4 py-3 rounded-2xl text-slate-700 text-xs font-bold border border-slate-200 hover:bg-slate-50 transition-all cursor-pointer shadow-sm"
+            className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-full text-slate-700 text-xs font-bold border border-slate-200 hover:bg-slate-50 transition-all cursor-pointer shadow-sm"
             title="Export directory records to CSV file"
           >
             <FaFileCsv className="text-emerald-600" size={14} />
@@ -216,13 +215,13 @@ export function EmployeeActionBar({
 
           {/* View Mode Toggle */}
           {setViewMode && (
-            <div className="flex items-center rounded-2xl border border-slate-200 overflow-hidden shadow-sm shrink-0">
+            <div className="flex items-center rounded-full border border-slate-200 overflow-hidden shadow-sm shrink-0">
               <button
                 onClick={() => setViewMode("table")}
                 title="Table View"
-                className={`flex items-center gap-1.5 px-3 py-3 text-xs font-bold transition-all cursor-pointer ${
+                className={`flex items-center gap-1.5 px-4 py-2.5 text-xs font-bold transition-all cursor-pointer ${
                   viewMode === "table"
-                    ? "bg-slate-900 text-white"
+                    ? "bg-[#0f172a] text-white"
                     : "bg-white text-slate-600 hover:bg-slate-50"
                 }`}
               >
@@ -232,9 +231,9 @@ export function EmployeeActionBar({
               <button
                 onClick={() => setViewMode("tree")}
                 title="Org Tree View"
-                className={`flex items-center gap-1.5 px-3 py-3 text-xs font-bold transition-all cursor-pointer border-l border-slate-200 ${
+                className={`flex items-center gap-1.5 px-4 py-2.5 text-xs font-bold transition-all cursor-pointer border-l border-slate-200 ${
                   viewMode === "tree"
-                    ? "bg-indigo-600 text-white border-indigo-500"
+                    ? "bg-[#0f172a] text-white"
                     : "bg-white text-slate-600 hover:bg-slate-50"
                 }`}
               >
@@ -247,7 +246,7 @@ export function EmployeeActionBar({
           {/* Add New Employee */}
           <button
             onClick={onAddClick}
-            className="w-full sm:w-auto bg-gradient-to-r from-[#08112d] via-[#1a1d5f] to-[#08112d] text-white font-bold px-5 py-3 rounded-2xl shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 text-xs cursor-pointer flex items-center justify-center gap-1.5"
+            className="bg-[#0f172a] hover:bg-[#1e293b] text-white px-5 py-2.5 rounded-full text-xs font-bold transition duration-200 flex items-center justify-center gap-1.5 shadow-md hover:scale-[1.02] cursor-pointer"
           >
             <span>+ Add Employee</span>
           </button>

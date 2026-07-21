@@ -180,29 +180,45 @@ export default function LoginHistory() {
         </div>
       )}
 
-      <div className="space-y-6 max-w-7xl mx-auto py-2">
-        {/* Header Banner */}
-        <div className="bg-gradient-to-r from-[#08112d] via-[#151a5a] to-[#08112d] rounded-3xl p-6 text-white border border-white/10 shadow-lg relative overflow-hidden">
-          <div className="absolute right-[-40px] top-[-40px] w-48 h-48 bg-indigo-500/10 rounded-full blur-2xl" />
-          <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div className="space-y-1">
-              <span className="bg-indigo-500/20 text-indigo-300 border border-indigo-400/20 text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-xl">
-                Security Portal
-              </span>
-              <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mt-2">
-                Login History Registry
-              </h1>
-              <p className="text-slate-300 text-xs font-semibold">
-                Monitor all employee login activity, active sessions, and client devices.
-              </p>
+      <div className="space-y-6 max-w-7xl mx-auto py-4 px-2 sm:px-4">
+        {/* Unified Top Control Bar */}
+        <div className="bg-white border border-slate-100 rounded-[2rem] p-3 shadow-[0_2px_10px_rgba(0,0,0,0.02)] flex flex-col md:flex-row items-center gap-4 justify-between w-full">
+          {/* Search Input */}
+          <div className="relative w-full md:max-w-sm">
+            <Search size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+            <input
+              type="text"
+              placeholder="Search by name, email, IP, browser..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full bg-slate-50/80 border border-slate-200 hover:border-slate-300 focus:bg-white pl-10 pr-4 py-2.5 rounded-full text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 text-xs font-semibold transition-all duration-200"
+            />
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3 w-full md:w-auto justify-end">
+            {/* Filter Dropdown */}
+            <div className="relative">
+              <select
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+                className="appearance-none bg-slate-50/80 border border-slate-200 hover:border-slate-300 text-slate-600 px-5 py-2.5 pr-9 rounded-full text-xs font-bold outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all cursor-pointer min-w-[140px]"
+              >
+                <option value="all">All Statuses</option>
+                <option value="success">Success</option>
+                <option value="failed">Failed</option>
+                <option value="blocked">Blocked</option>
+              </select>
+              <Filter size={12} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
             </div>
+
+            {/* Refresh Button */}
             <button
               onClick={fetchHistory}
               disabled={loading}
-              className="bg-[#2390ea] hover:bg-[#1678d4] text-white px-5 py-3 rounded-2xl text-xs font-bold transition duration-150 flex items-center gap-1.5 shadow-md hover:scale-[1.02] cursor-pointer"
+              className="bg-[#0f172a] hover:bg-[#1e293b] text-white px-5 py-2.5 rounded-full text-xs font-bold transition duration-200 flex items-center justify-center gap-2 shadow-md cursor-pointer disabled:opacity-70"
             >
               <RefreshCw size={14} className={loading ? "animate-spin" : ""} />
-              Refresh Registry
+              Refresh
             </button>
           </div>
         </div>
@@ -290,38 +306,7 @@ export default function LoginHistory() {
           })}
         </div>
 
-        {/* Filters */}
-        <div className="bg-white border border-slate-100 rounded-3xl p-4 shadow-sm flex flex-col sm:flex-row items-center gap-4 justify-between">
-          <div className="relative w-full sm:w-72">
-            <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 pointer-events-none">
-              <Search size={14} />
-            </span>
-            <input
-              type="text"
-              placeholder="Search by name, email, IP, browser, OS…"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-slate-50 border border-slate-200 hover:border-slate-300 focus:bg-white pl-10 pr-4 py-2.5 rounded-2xl text-slate-750 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs font-semibold transition-all duration-200"
-            />
-          </div>
 
-          <div className="flex items-center gap-3 w-full sm:w-auto">
-            <span className="text-slate-400 text-[10px] font-black uppercase tracking-widest flex items-center gap-1 shrink-0">
-              <Filter size={12} />
-              Filter status
-            </span>
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-              className="w-full sm:w-44 border border-slate-200 rounded-2xl p-2.5 text-xs font-semibold text-slate-700 bg-slate-50 focus:border-indigo-500 focus:bg-white outline-none transition duration-150"
-            >
-              <option value="all">All Statuses</option>
-              <option value="success">Success</option>
-              <option value="failed">Failed</option>
-              <option value="blocked">Blocked</option>
-            </select>
-          </div>
-        </div>
 
         {/* Table Container */}
         <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm">

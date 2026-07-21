@@ -75,21 +75,6 @@ export default function PayrollMain() {
     <DashboardLayout>
       <div className="space-y-6 max-w-7xl mx-auto py-4 px-2 sm:px-4 animate-fadeIn bg-slate-50/50 rounded-[2.5rem]">
         
-        {/* Zenova Corporate Header Card */}
-        <div className="bg-white border border-slate-200/50 rounded-3xl p-6 md:p-8 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-1.5 h-full bg-blue-600" />
-          <div className="space-y-1.5 relative z-10 text-left">
-            <span className="inline-flex items-center px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-[10px] font-black uppercase tracking-wider border border-blue-100">
-              Finance &amp; Payroll
-            </span>
-            <h1 className="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight mt-1.5 animate-fadeIn">
-              Payroll Control Center
-            </h1>
-            <p className="text-slate-400 text-xs font-semibold">
-              Manage salary structures, automate monthly payouts calculations, and publish official payslips.
-            </p>
-          </div>
-        </div>
 
         {/* Dashboard KPIs */}
         <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-5">

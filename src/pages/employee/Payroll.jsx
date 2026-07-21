@@ -48,22 +48,6 @@ export default function EmployeePayroll() {
             Back to Dashboard
           </button>
 
-          <div className="bg-gradient-to-r from-[#08112d] via-[#151a5a] to-[#08112d] rounded-3xl p-6 text-white border border-white/10 shadow-lg relative overflow-hidden">
-            <div className="absolute right-[-40px] top-[-40px] w-48 h-48 bg-indigo-500/10 rounded-full blur-2xl" />
-            <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div className="space-y-1">
-                <span className="bg-indigo-500/20 text-indigo-300 border border-indigo-400/20 text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-xl">
-                  Payroll Portal
-                </span>
-                <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mt-2">
-                  My Payslip Registry
-                </h1>
-                <p className="text-slate-300 text-xs font-semibold">
-                  Access and view your official monthly payslips compiled in PDF format.
-                </p>
-              </div>
-            </div>
-          </div>
         </div>
 
         {/* Content Card */}

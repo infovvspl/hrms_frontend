@@ -143,13 +143,6 @@ export default function LeaveRequest() {
   return (
     <DashboardLayout>
       <div className="min-h-screen bg-slate-50/50 py-6 px-4 md:px-8 max-w-7xl mx-auto space-y-6 flex flex-col">
-        {/* ================= HEADER ================= */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-white p-5 rounded-2xl border border-slate-200/60 shadow-sm">
-          <div>
-            <h2 className="text-slate-800 text-xl font-black tracking-tight">Requests Board</h2>
-            <p className="text-slate-400 text-xs mt-0.5 font-medium">Verify employee balances, prevent overlap conflicts, and approve applications</p>
-          </div>
-        </div>
 
         {/* ================= CONTROLS & FILTERING PILLS ================= */}
         <div className="flex flex-col md:flex-row gap-4 justify-between items-center bg-white p-4 rounded-2xl border border-slate-200/60 shadow-sm">

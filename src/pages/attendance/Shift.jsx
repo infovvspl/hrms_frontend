@@ -111,35 +111,6 @@ export default function Shift() {
   return (
     <DashboardLayout>
       <div className="space-y-6 max-w-7xl mx-auto py-2">
-        {/* Header Banner */}
-        <div className="bg-gradient-to-r from-[#08112d] via-[#151a5a] to-[#08112d] rounded-3xl p-6 text-white border border-white/10 shadow-lg relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-          <div className="absolute right-[-40px] top-[-40px] w-48 h-48 bg-indigo-500/10 rounded-full blur-2xl" />
-          <div className="relative z-10 space-y-1">
-            <span className="bg-indigo-500/20 text-indigo-300 border border-indigo-400/20 text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-xl">
-              Shift Management
-            </span>
-            <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mt-2">
-              Workforce Shift Scheduling
-            </h1>
-            <p className="text-slate-300 text-xs font-semibold">
-              Configure timing slots and assign shifts to employee profiles.
-            </p>
-          </div>
-
-          <button
-            onClick={() => {
-              setAssignData({
-                empId: employees.length > 0 ? employees[0].id : "",
-                shiftId: shifts.length > 0 ? shifts[0].id : ""
-              });
-              setShowAssignModal(true);
-            }}
-            className="px-5 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl text-xs font-bold transition flex items-center justify-center gap-2 shadow-md cursor-pointer z-10"
-          >
-            <FaPlus size={10} /> Assign Shift
-          </button>
-        </div>
-
         {/* Shift Timings Grid */}
         <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
           {shifts.map((s) => {
@@ -177,6 +148,21 @@ export default function Shift() {
               </div>
             );
           })}
+        </div>
+
+        <div className="flex justify-end gap-3 w-full">
+          <button
+            onClick={() => {
+              setAssignData({
+                empId: employees.length > 0 ? employees[0].id : "",
+                shiftId: shifts.length > 0 ? shifts[0].id : ""
+              });
+              setShowAssignModal(true);
+            }}
+            className="px-5 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl text-xs font-bold transition flex items-center justify-center gap-2 shadow-sm cursor-pointer border border-indigo-500/20"
+          >
+            <FaPlus size={10} /> Assign Shift
+          </button>
         </div>
 
         {/* Rota List Table */}

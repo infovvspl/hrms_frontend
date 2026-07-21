@@ -253,46 +253,6 @@ export default function DailyTracking() {
   return (
     <DashboardLayout>
       <div className="space-y-6 max-w-7xl mx-auto py-2">
-        {/* Header Banner */}
-        <div className="bg-gradient-to-r from-[#08112d] via-[#151a5a] to-[#08112d] rounded-3xl p-6 text-white border border-white/10 shadow-[0_10px_35px_rgba(0,0,0,0.08)] relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-          <div className="absolute right-[-40px] top-[-40px] w-48 h-48 bg-indigo-500/10 rounded-full blur-2xl" />
-          <div className="relative z-10 space-y-1">
-            <span className="bg-indigo-500/20 text-indigo-300 border border-indigo-400/20 text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-xl">
-              Logs Registry
-            </span>
-            <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mt-2">
-              Workforce Daily Tracking
-            </h1>
-            <p className="text-slate-300 text-xs font-semibold">
-              Filter and search records of employee clock-in check times, biometric signatures, and geolocations.
-            </p>
-          </div>
-
-          <div className="flex gap-3 z-10 shrink-0 flex-wrap">
-            <button
-              onClick={() => {
-                setManualForm({
-                  empId: employees.length > 0 ? String(employees[0].id) : "",
-                  shiftId: shifts.length > 0 ? String(shifts[0].id) : "",
-                  date: new Date().toISOString().split("T")[0],
-                  punchInTime: "09:00",
-                  punchOutTime: "18:00"
-                });
-                setShowManualModal(true);
-              }}
-              className="px-5 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl text-xs font-bold transition flex items-center justify-center gap-2 shadow-md cursor-pointer border border-indigo-500/20"
-            >
-              Add Manual Entry
-            </button>
-            <button
-              onClick={handleExportCSV}
-              className="px-5 py-3 bg-white/10 hover:bg-white/15 text-white border border-white/20 rounded-2xl text-xs font-bold transition flex items-center justify-center gap-2 shadow-md cursor-pointer"
-            >
-              <FaDownload size={12} /> Export Daily CSV
-            </button>
-          </div>
-        </div>
-
         {/* METRIC CARD PANEL */}
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
           <div className="bg-white border border-slate-100 p-5 rounded-3xl shadow-sm flex items-center gap-4">
@@ -344,6 +304,31 @@ export default function DailyTracking() {
               <p className="text-2xl font-black text-indigo-600 mt-0.5">{leaveCount}</p>
             </div>
           </div>
+        </div>
+
+        {/* Actions Row */}
+        <div className="flex justify-end gap-3 w-full">
+          <button
+            onClick={() => {
+              setManualForm({
+                empId: employees.length > 0 ? String(employees[0].id) : "",
+                shiftId: shifts.length > 0 ? String(shifts[0].id) : "",
+                date: new Date().toISOString().split("T")[0],
+                punchInTime: "09:00",
+                punchOutTime: "18:00"
+              });
+              setShowManualModal(true);
+            }}
+            className="px-5 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl text-xs font-bold transition flex items-center justify-center gap-2 shadow-sm cursor-pointer border border-indigo-500/20"
+          >
+            Add Manual Entry
+          </button>
+          <button
+            onClick={handleExportCSV}
+            className="px-5 py-3 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 rounded-2xl text-xs font-bold transition flex items-center justify-center gap-2 shadow-sm cursor-pointer"
+          >
+            <FaDownload size={12} /> Export Daily CSV
+          </button>
         </div>
 
         {/* SEARCH & FILTERS PANEL */}
