@@ -284,7 +284,7 @@ function AppContent() {
         <Route
           path="/employees"
           element={
-            <ProtectedRoute requiredRole="company">
+            <ProtectedRoute requiredPermission="Employee List View">
               <Employee />
             </ProtectedRoute>
           }
@@ -292,7 +292,7 @@ function AppContent() {
         <Route
           path="/offer-letters"
           element={
-            <ProtectedRoute requiredRole="company">
+            <ProtectedRoute requiredPermission="Offer Letters Admin">
               <OfferLetterManagement />
             </ProtectedRoute>
           }
@@ -300,7 +300,7 @@ function AppContent() {
         <Route
           path="/experience-letters"
           element={
-            <ProtectedRoute requiredRole="company">
+            <ProtectedRoute requiredPermission="Experience Letters Admin">
               <ExperienceLetterManagement />
             </ProtectedRoute>
           }
@@ -308,7 +308,7 @@ function AppContent() {
         <Route
           path="/relieving-letters"
           element={
-            <ProtectedRoute requiredRole="company">
+            <ProtectedRoute requiredPermission="Relieving Letters Admin">
               <RelievingLetterManagement />
             </ProtectedRoute>
           }
@@ -316,7 +316,7 @@ function AppContent() {
         <Route
           path="/warning-letters"
           element={
-            <ProtectedRoute requiredRole="company">
+            <ProtectedRoute requiredPermission="Warning Letters Admin">
               <WarningLetterManagement />
             </ProtectedRoute>
           }
@@ -324,7 +324,7 @@ function AppContent() {
         <Route
           path="/termination-letters"
           element={
-            <ProtectedRoute requiredRole="company">
+            <ProtectedRoute requiredPermission="Termination Letters Admin">
               <TerminationLetterManagement />
             </ProtectedRoute>
           }
@@ -343,7 +343,7 @@ function AppContent() {
         <Route
           path="/employee/dashboard"
           element={
-            <ProtectedRoute requiredRole="employee" requiredPermission="Dashboard View">
+            <ProtectedRoute requiredRole="employee" requiredPermission="My Dashboard View">
               <EmployeeDashboard />
             </ProtectedRoute>
           }
@@ -351,7 +351,7 @@ function AppContent() {
         <Route
           path="/employee/leave"
           element={
-            <ProtectedRoute requiredRole="employee" requiredPermission="Leave Management">
+            <ProtectedRoute requiredRole="employee" requiredPermission="My Leaves View">
               <EmployeeLeave />
             </ProtectedRoute>
           }
@@ -359,7 +359,7 @@ function AppContent() {
         <Route
           path="/employee/leave/apply"
           element={
-            <ProtectedRoute requiredRole="employee" requiredPermission="Leave Management">
+            <ProtectedRoute requiredRole="employee" requiredPermission="Apply Leave">
               <EmployeeLeaveApply />
             </ProtectedRoute>
           }
@@ -367,7 +367,7 @@ function AppContent() {
         <Route
           path="/employee/leave/history"
           element={
-            <ProtectedRoute requiredRole="employee" requiredPermission="Leave Management">
+            <ProtectedRoute requiredRole="employee" requiredPermission="My Leave History">
               <EmployeeLeaveHistory />
             </ProtectedRoute>
           }
@@ -375,7 +375,7 @@ function AppContent() {
         <Route
           path="/employee/profile"
           element={
-            <ProtectedRoute requiredRole="employee">
+            <ProtectedRoute requiredRole="employee" requiredPermission="My Profile View">
               <EmployeeProfile />
             </ProtectedRoute>
           }
@@ -383,7 +383,7 @@ function AppContent() {
         <Route
           path="/employee/attendance"
           element={
-            <ProtectedRoute requiredRole="employee" requiredPermission="Attendance Management">
+            <ProtectedRoute requiredRole="employee" requiredPermission="My Attendance View">
               <EmployeeAttendance />
             </ProtectedRoute>
           }
@@ -391,7 +391,7 @@ function AppContent() {
         <Route
           path="/employee/documents"
           element={
-            <ProtectedRoute requiredRole="employee" requiredPermission="Document Manager">
+            <ProtectedRoute requiredRole="employee" requiredPermission="My Documents View">
               <EmployeeDocuments />
             </ProtectedRoute>
           }
@@ -399,7 +399,7 @@ function AppContent() {
         <Route
           path="/employee/payroll"
           element={
-            <ProtectedRoute requiredRole="employee" requiredPermission="Payroll & Invoicing">
+            <ProtectedRoute requiredRole="employee" requiredPermission="My Payroll View">
               <EmployeePayroll />
             </ProtectedRoute>
           }
@@ -407,7 +407,7 @@ function AppContent() {
         <Route
           path="/employee/resignation"
           element={
-            <ProtectedRoute requiredRole="employee">
+            <ProtectedRoute requiredRole="employee" requiredPermission="Resignation Apply">
               <EmployeeResignation />
             </ProtectedRoute>
           }
@@ -437,7 +437,7 @@ function AppContent() {
         <Route
           path="/attendance"
           element={
-            <ProtectedRoute requiredRole="company">
+            <ProtectedRoute requiredPermission="Attendance Admin Dashboard">
               <Attendance />
             </ProtectedRoute>
           }
@@ -446,7 +446,7 @@ function AppContent() {
         <Route
           path="/daily-tracking"
           element={
-            <ProtectedRoute requiredRole="company">
+            <ProtectedRoute requiredPermission="Daily Tracking Admin">
               <DailyTracking />
             </ProtectedRoute>
           }
@@ -455,7 +455,7 @@ function AppContent() {
         <Route
           path="/shift"
           element={
-            <ProtectedRoute requiredRole="company">
+            <ProtectedRoute requiredPermission="Shifts Admin">
               <Shift />
             </ProtectedRoute>
           }
@@ -464,7 +464,7 @@ function AppContent() {
         <Route
           path="/payroll"
           element={
-            <ProtectedRoute requiredRole="company">
+            <ProtectedRoute requiredPermission="Payroll Admin Dashboard">
               <PayrollMain />
             </ProtectedRoute>
           }
@@ -473,7 +473,7 @@ function AppContent() {
         <Route
           path="/payroll/salary-details"
           element={
-            <ProtectedRoute requiredRole="company">
+            <ProtectedRoute requiredPermission="Salary Details Admin">
               <SalaryDetails />
             </ProtectedRoute>
           }
@@ -482,7 +482,7 @@ function AppContent() {
         <Route
           path="/payroll/payslip"
           element={
-            <ProtectedRoute requiredRole="company">
+            <ProtectedRoute requiredPermission="Payslips Admin">
               <PayslipList />
             </ProtectedRoute>
           }
@@ -491,7 +491,7 @@ function AppContent() {
         <Route
           path="/holiday"
           element={
-            <ProtectedRoute requiredRole="company">
+            <ProtectedRoute requiredPermission="Holidays Admin">
               <Holiday />
             </ProtectedRoute>
           }
@@ -500,7 +500,7 @@ function AppContent() {
         <Route
           path="/holiday/calendar"
           element={
-            <ProtectedRoute requiredRole="company">
+            <ProtectedRoute requiredPermission="Holiday Calendar View">
               <HolidayCalendar />
             </ProtectedRoute>
           }
@@ -509,7 +509,7 @@ function AppContent() {
         <Route
           path="/leave-dashboard"
           element={
-            <ProtectedRoute requiredRole="company">
+            <ProtectedRoute requiredPermission="Leave Admin Dashboard">
               <LeaveDashboard />
             </ProtectedRoute>
           }
@@ -518,7 +518,7 @@ function AppContent() {
         <Route
           path="/leave-types"
           element={
-            <ProtectedRoute requiredRole="company">
+            <ProtectedRoute requiredPermission="Leave Types Admin">
               <LeaveType />
             </ProtectedRoute>
           }
@@ -527,7 +527,7 @@ function AppContent() {
         <Route
           path="/leave-requests"
           element={
-            <ProtectedRoute requiredRole="company">
+            <ProtectedRoute requiredPermission="Leave Requests Admin">
               <LeaveRequest />
             </ProtectedRoute>
           }
@@ -537,7 +537,7 @@ function AppContent() {
         <Route
           path="/login-history"
           element={
-            <ProtectedRoute requiredRole="company">
+            <ProtectedRoute requiredPermission="Company Login History">
               <LoginHistory />
             </ProtectedRoute>
           }
@@ -547,7 +547,7 @@ function AppContent() {
         <Route
           path="/employee/login-history"
           element={
-            <ProtectedRoute requiredRole="employee" requiredPermission="Login History logs">
+            <ProtectedRoute requiredRole="employee" requiredPermission="My Login History View">
               <EmployeeLoginHistory />
             </ProtectedRoute>
           }
@@ -557,7 +557,7 @@ function AppContent() {
         <Route
           path="/resume-analyser"
           element={
-            <ProtectedRoute requiredRole="company">
+            <ProtectedRoute requiredPermission="Resume Analyser">
               <ResumeAnalyser />
             </ProtectedRoute>
           }
@@ -567,7 +567,7 @@ function AppContent() {
         <Route
           path="/interview-scheduler"
           element={
-            <ProtectedRoute requiredRole="company">
+            <ProtectedRoute requiredPermission="Interview Scheduler">
               <InterviewScheduler />
             </ProtectedRoute>
           }
@@ -577,7 +577,7 @@ function AppContent() {
         <Route
           path="/assets"
           element={
-            <ProtectedRoute requiredRole="company">
+            <ProtectedRoute requiredPermission="Assets Admin">
               <AssetPage />
             </ProtectedRoute>
           }
@@ -587,7 +587,7 @@ function AppContent() {
         <Route
           path="/employee/assets"
           element={
-            <ProtectedRoute requiredRole="employee" requiredPermission="Asset Management">
+            <ProtectedRoute requiredRole="employee" requiredPermission="My Assets View">
               <EmployeeAsset />
             </ProtectedRoute>
           }
@@ -597,7 +597,7 @@ function AppContent() {
         <Route
           path="/travel"
           element={
-            <ProtectedRoute requiredRole="company">
+            <ProtectedRoute requiredPermission="Travel Admin">
               <TravelPage />
             </ProtectedRoute>
           }
@@ -605,7 +605,7 @@ function AppContent() {
         <Route
           path="/employee/travel"
           element={
-            <ProtectedRoute requiredRole="employee" requiredPermission="Travel Reimbursement">
+            <ProtectedRoute requiredRole="employee" requiredPermission="My Travel View">
               <EmployeeTravel />
             </ProtectedRoute>
           }

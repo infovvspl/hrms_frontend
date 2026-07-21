@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import EmployeeSidebar from "../components/sidebar/EmployeeSidebar";
+import DynamicSidebar from "../components/sidebar/DynamicSidebar";
 import DashboardNavbar from "../components/dashboard/DashboardNavbar";
 import axios from "axios";
 
@@ -38,7 +38,7 @@ export default function EmployeeDashboardLayout({ children, onDownloadReport }) 
 
   return (
     <div className="flex min-h-screen bg-slate-100">
-      <EmployeeSidebar collapsed={collapsed} setCollapsed={setCollapsed} />
+      <DynamicSidebar collapsed={collapsed} setCollapsed={setCollapsed} />
 
       <div className="flex-1 flex flex-col min-w-0 overflow-auto">
         <DashboardNavbar collapsed={collapsed} setCollapsed={setCollapsed} />
