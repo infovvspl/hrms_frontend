@@ -32,24 +32,27 @@ export default function OfferLetterManagement() {
   const [loading, setLoading] = useState(false);
   const [generatingId, setGeneratingId] = useState(null);
 
-  // Slide-out preview drawer state
+  const [selectedTemplate, setSelectedTemplate] = useState(1);
   const [drawerEmployee, setDrawerEmployee] = useState(null);
-
   const [htmlContent, setHtmlContent] = useState("");
   const [loadingHtml, setLoadingHtml] = useState(false);
 
   // Effect to generate/fetch HTML for the clean inline viewer
   useEffect(() => {
-    if (drawerEmployee && drawerEmployee.offer_letter) {
+    if (drawerEmployee) {
       setLoadingHtml(true);
-      axios.get(`http://localhost:5000/api/employees/${drawerEmployee.id}/view-offer-letter`, { headers })
+      axios.get(`http://localhost:5000/api/employees/${drawerEmployee.id}/view-offer-letter?template=${selectedTemplate}`, { headers })
         .then(res => {
           setHtmlContent(res.data.html || "");
         })
         .catch(err => {
           console.error("Error fetching offer letter HTML:", err);
-          // Fallback to decodeDataUrl if API fails
-          setHtmlContent(decodeDataUrl(drawerEmployee.offer_letter));
+          if (drawerEmployee.offer_letter) {
+            // Fallback to decodeDataUrl if API fails
+            setHtmlContent(decodeDataUrl(drawerEmployee.offer_letter));
+          } else {
+            setHtmlContent("");
+          }
         })
         .finally(() => {
           setLoadingHtml(false);
@@ -57,7 +60,7 @@ export default function OfferLetterManagement() {
     } else {
       setHtmlContent("");
     }
-  }, [drawerEmployee]);
+  }, [drawerEmployee, selectedTemplate]);
 
   // Utility to decode base64 data URLs returned by the backend
   const decodeDataUrl = (dataUrl) => {
@@ -148,7 +151,7 @@ export default function OfferLetterManagement() {
     try {
       const res = await axios.post(
         `http://localhost:5000/api/employees/${empId}/generate-offer-letter`,
-        {}, { headers }
+        { template: selectedTemplate }, { headers }
       );
       if (res.data.success) {
         // Fetch updated employee data directly to ensure letter fields are populated
@@ -194,7 +197,7 @@ export default function OfferLetterManagement() {
   return (
     <DashboardLayout>
       <div className="space-y-6 max-w-[1600px] mx-auto p-2 relative">
-    
+
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="bg-white border border-slate-100 p-5 rounded-2xl shadow-sm flex items-center gap-4">
@@ -429,6 +432,11 @@ export default function OfferLetterManagement() {
                   <div>
                     <h3 className="font-black text-slate-800 text-sm">
                       {drawerEmployee.name} - Offer Letter
+                      {!drawerEmployee.offer_letter && (
+                        <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-black bg-amber-50 text-amber-600 border border-amber-100 uppercase tracking-wider">
+                          Draft (Unsaved)
+                        </span>
+                      )}
                     </h3>
                     <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">
                       ID: {formatEmployeeId(drawerEmployee.company_name, drawerEmployee.company_employee_id, drawerEmployee.id)} · {drawerEmployee.designation_title || drawerEmployee.designation_name || "Associate"} · {drawerEmployee.department_name || "Staff"}
@@ -437,6 +445,30 @@ export default function OfferLetterManagement() {
                 </div>
 
                 <div className="flex items-center gap-3">
+                  {/* Template Picker */}
+                  <div className="flex bg-slate-100 p-1 rounded-xl border border-slate-200 mr-2">
+                    <button
+                      onClick={() => setSelectedTemplate(1)}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-extrabold transition-all cursor-pointer ${
+                        selectedTemplate === 1
+                          ? "bg-white text-indigo-600 shadow-sm"
+                          : "text-slate-550 hover:text-slate-850"
+                      }`}
+                    >
+                      Template 1
+                    </button>
+                    <button
+                      onClick={() => setSelectedTemplate(2)}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-extrabold transition-all cursor-pointer ${
+                        selectedTemplate === 2
+                          ? "bg-white text-indigo-600 shadow-sm"
+                          : "text-slate-550 hover:text-slate-850"
+                      }`}
+                    >
+                      Template 2
+                    </button>
+                  </div>
+
                   <button
                     onClick={() => handleGenerate(drawerEmployee.id)}
                     disabled={generatingId !== null}
@@ -479,14 +511,12 @@ export default function OfferLetterManagement() {
 
               {/* Drawer Content Body */}
               <div className="flex-1 overflow-y-auto p-8 flex items-center justify-center bg-slate-50">
-                {drawerEmployee.offer_letter ? (
-                  loadingHtml ? (
-                    <div className="flex flex-col items-center justify-center p-12 bg-white border border-slate-200 rounded-2xl shadow-xl w-full max-w-md h-64 text-center">
-                      <span className="animate-pulse font-extrabold text-slate-500 text-xs">Loading Letter Layout...</span>
-                    </div>
-                  ) : (
-                    <iframe srcDoc={htmlContent} title={`Offer Letter - ${drawerEmployee.name}`} className="w-full max-w-[850px] h-full border border-slate-250 rounded-2xl shadow-2xl bg-white" />
-                  )
+                {loadingHtml ? (
+                  <div className="flex flex-col items-center justify-center p-12 bg-white border border-slate-200 rounded-2xl shadow-xl w-full max-w-md h-64 text-center">
+                    <span className="animate-pulse font-extrabold text-slate-500 text-xs">Loading Letter Layout...</span>
+                  </div>
+                ) : htmlContent ? (
+                  <iframe srcDoc={htmlContent} title={`Offer Letter - ${drawerEmployee.name}`} className="w-full max-w-[850px] h-full border border-slate-250 rounded-2xl shadow-2xl bg-white" />
                 ) : (
                   <div className="flex flex-col items-center justify-center p-12 bg-white border border-slate-200 rounded-2xl shadow-xl w-full max-w-md max-h-[360px] m-auto text-center">
                     <div className="w-16 h-16 bg-slate-50 text-slate-400 rounded-2xl flex items-center justify-center border border-slate-200 shrink-0 mb-4 shadow-inner">
@@ -494,7 +524,7 @@ export default function OfferLetterManagement() {
                     </div>
                     <h4 className="font-extrabold text-slate-800 text-sm">Offer Letter Missing</h4>
                     <p className="text-xs text-slate-400 font-bold max-w-[260px] mt-1.5 mb-6 leading-relaxed">
-                      No offer letter exists for this employee record yet. Generate it using the button in the header toolbar or click below.
+                      No offer letter exists for this employee record yet. Choose a template above and click below to generate it.
                     </p>
                     <button onClick={() => handleGenerate(drawerEmployee.id)} disabled={generatingId !== null} className="flex items-center justify-center gap-1.5 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 active:scale-96 text-white rounded-xl text-xs font-black shadow-md transition disabled:opacity-50">
                       <FileText size={14} />

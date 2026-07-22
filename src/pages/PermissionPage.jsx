@@ -47,6 +47,7 @@ const MODULE_CONFIG = [
   
   // SELF SERVICE
   { name: "My Profile View", icon: Users, color: "blue", gradient: "from-blue-400 to-cyan-400", bgLight: "bg-blue-50", border: "border-blue-200", desc: "Access own profile details.", category: "Self Service" },
+  { name: "Update My Profile", icon: Users, color: "blue", gradient: "from-blue-400 to-cyan-400", bgLight: "bg-blue-50", border: "border-blue-200", desc: "Ability to edit and update own profile details.", category: "Self Service" },
   { name: "My Attendance View", icon: Clock, color: "blue", gradient: "from-blue-400 to-cyan-400", bgLight: "bg-blue-50", border: "border-blue-200", desc: "Access own attendance records.", category: "Self Service" },
   { name: "My Leaves View", icon: Calendar, color: "blue", gradient: "from-blue-400 to-cyan-400", bgLight: "bg-blue-50", border: "border-blue-200", desc: "Access own leave overview.", category: "Self Service" },
   { name: "Apply Leave", icon: Calendar, color: "blue", gradient: "from-blue-400 to-cyan-400", bgLight: "bg-blue-50", border: "border-blue-200", desc: "Ability to apply for leave.", category: "Self Service" },
@@ -54,6 +55,7 @@ const MODULE_CONFIG = [
   { name: "My Payroll View", icon: CreditCard, color: "blue", gradient: "from-blue-400 to-cyan-400", bgLight: "bg-blue-50", border: "border-blue-200", desc: "Access own payroll and payslips.", category: "Self Service" },
   { name: "My Assets View", icon: Package, color: "blue", gradient: "from-blue-400 to-cyan-400", bgLight: "bg-blue-50", border: "border-blue-200", desc: "Access own assigned assets.", category: "Self Service" },
   { name: "My Travel View", icon: Plane, color: "blue", gradient: "from-blue-400 to-cyan-400", bgLight: "bg-blue-50", border: "border-blue-200", desc: "Access own travel requests.", category: "Self Service" },
+  { name: "Travel Reimbursement", icon: Plane, color: "blue", gradient: "from-blue-400 to-cyan-400", bgLight: "bg-blue-50", border: "border-blue-200", desc: "Access own travel requests and submit reimbursement expenses.", category: "Self Service" },
   { name: "My Documents View", icon: Folder, color: "blue", gradient: "from-blue-400 to-cyan-400", bgLight: "bg-blue-50", border: "border-blue-200", desc: "Access own documents.", category: "Self Service" },
   { name: "My Login History View", icon: History, color: "blue", gradient: "from-blue-400 to-cyan-400", bgLight: "bg-blue-50", border: "border-blue-200", desc: "Access own login history.", category: "Self Service" },
   { name: "Resignation Apply", icon: UserMinus, color: "red", gradient: "from-red-400 to-orange-400", bgLight: "bg-red-50", border: "border-red-200", desc: "Ability to apply for resignation.", category: "Self Service" },

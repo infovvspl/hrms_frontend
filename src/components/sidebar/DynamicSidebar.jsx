@@ -147,12 +147,12 @@ export default function DynamicSidebar({ collapsed: propCollapsed, setCollapsed:
     company.company_type?.company_type_name ||
     company.company_type ||
     "Workforce Platform";
-    
+
   const employeeName = employee?.first_name
     ? `${employee.first_name} ${employee.last_name || ""}`.trim()
     : "Employee";
 
-  
+
   const menuConfig = [
     // ----------------------------------------------------
     // DASHBOARDS
@@ -173,23 +173,23 @@ export default function DynamicSidebar({ collapsed: propCollapsed, setCollapsed:
     // ----------------------------------------------------
     // EMPLOYEE SELF-SERVICE (Personal Modules)
     // ----------------------------------------------------
-    { 
-      label: "My Profile", 
-      icon: User, 
-      path: "/employee/profile", 
+    {
+      label: "My Profile",
+      icon: User,
+      path: "/employee/profile",
       requiredRole: "employee",
       requiredPermission: "My Profile View"
     },
-    { 
-      label: "My Attendance", 
-      icon: Clock, 
-      path: "/employee/attendance", 
+    {
+      label: "My Attendance",
+      icon: Clock,
+      path: "/employee/attendance",
       requiredRole: "employee",
       requiredPermission: "My Attendance View"
     },
-    { 
-      label: "My Leaves", 
-      icon: Calendar, 
+    {
+      label: "My Leaves",
+      icon: Calendar,
       id: "my_leaves",
       requiredRole: "employee",
       subItems: [
@@ -198,24 +198,24 @@ export default function DynamicSidebar({ collapsed: propCollapsed, setCollapsed:
         { label: "Leave History", path: "/employee/leave/history", requiredPermission: "My Leave History" }
       ]
     },
-    { 
-      label: "My Payroll", 
-      icon: CreditCard, 
-      path: "/employee/payroll", 
+    {
+      label: "My Payroll",
+      icon: CreditCard,
+      path: "/employee/payroll",
       requiredRole: "employee",
       requiredPermission: "My Payroll View"
     },
-    { 
-      label: "My Assets", 
-      icon: Laptop, 
-      path: "/employee/assets", 
+    {
+      label: "My Assets",
+      icon: Laptop,
+      path: "/employee/assets",
       requiredRole: "employee",
       requiredPermission: "My Assets View"
     },
-    { 
-      label: "My Travel", 
-      icon: Plane, 
-      path: "/employee/travel", 
+    {
+      label: "My Travel",
+      icon: Plane,
+      path: "/employee/travel",
       requiredRole: "employee",
       requiredPermission: "My Travel View"
     },
@@ -233,10 +233,10 @@ export default function DynamicSidebar({ collapsed: propCollapsed, setCollapsed:
       requiredRole: "employee",
       requiredPermission: "My Login History View"
     },
-    { 
-      label: "Resignation", 
-      icon: UserMinus, 
-      path: "/employee/resignation", 
+    {
+      label: "Resignation",
+      icon: UserMinus,
+      path: "/employee/resignation",
       requiredRole: "employee",
       requiredPermission: "Resignation Apply"
     },
@@ -365,30 +365,25 @@ export default function DynamicSidebar({ collapsed: propCollapsed, setCollapsed:
 
   const menuClass = (isActive) => {
     const showActive = isActive && expandedMenu === null;
-    return `flex items-center ${
-      collapsed ? "w-10 h-10 justify-center p-0" : "justify-between gap-3 px-3 py-3"
-    } rounded-xl transition-all duration-300 group ${
-      showActive
+    return `flex items-center ${collapsed ? "w-10 h-10 justify-center p-0" : "justify-between gap-3 px-3 py-3"
+      } rounded-xl transition-all duration-300 group ${showActive
         ? "bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-lg"
         : "text-slate-300 hover:bg-gradient-to-r hover:from-blue-500/20 hover:to-cyan-500/20 hover:text-white"
-    }`;
+      }`;
   };
 
   const getParentClass = (isActive) => {
-    return `flex items-center ${
-      collapsed ? "w-10 h-10 justify-center p-0" : "w-full justify-between gap-3 px-3 py-3"
-    } rounded-xl transition-all duration-300 group cursor-pointer ${
-      isActive
+    return `flex items-center ${collapsed ? "w-10 h-10 justify-center p-0" : "w-full justify-between gap-3 px-3 py-3"
+      } rounded-xl transition-all duration-300 group cursor-pointer ${isActive
         ? "bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-lg"
         : "text-slate-300 hover:bg-gradient-to-r hover:from-blue-500/20 hover:to-cyan-500/20 hover:text-white"
-    }`;
+      }`;
   };
 
   const subMenuLinkClass = ({ isActive }) =>
-    `px-4 py-2 rounded-lg transition-all duration-300 flex items-center ${
-      isActive
-        ? "bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-lg"
-        : "text-slate-400 hover:text-white hover:bg-white/5"
+    `px-4 py-2 rounded-lg transition-all duration-300 flex items-center ${isActive
+      ? "bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-lg"
+      : "text-slate-400 hover:text-white hover:bg-white/5"
     }`;
 
   // Filter items based on Role and Permissions
@@ -578,9 +573,8 @@ export default function DynamicSidebar({ collapsed: propCollapsed, setCollapsed:
         )}
 
         <button
-          className={`w-full flex items-center ${
-            collapsed ? "justify-center py-4" : "gap-3 px-4 py-4"
-          } text-slate-300 hover:bg-white/5 hover:text-white transition-all`}
+          className={`w-full flex items-center ${collapsed ? "justify-center py-4" : "gap-3 px-4 py-4"
+            } text-slate-300 hover:bg-white/5 hover:text-white transition-all`}
           onClick={handleLogout}
         >
           <LogOut size={16} />
