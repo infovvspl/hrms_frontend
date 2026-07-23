@@ -25,6 +25,7 @@ import EmployeeDashboardLayout from "../../layouts/EmployeeDashboardLayout";
 export default function EmployeeResignation() {
   const [resignationLetters, setResignationLetters] = useState([]);
   const [hrManager, setHrManager] = useState({ name: "HR Manager", email: "" });
+  const [recipientEmail, setRecipientEmail] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [subject, setSubject] = useState("");
   const [description, setDescription] = useState("");
@@ -47,7 +48,11 @@ export default function EmployeeResignation() {
         axios.get(`${import.meta.env.VITE_SERVER_ADDRESS}/api/employees/${employee.id}/hr-manager`, { headers })
       ]);
       setResignationLetters(resLetters.data.resignation_letters || []);
-      setHrManager(resHr.data.hr_manager || { name: "HR Manager", email: "" });
+      const hr = resHr.data.hr_manager || { name: "HR Manager", email: "" };
+      setHrManager(hr);
+      if (hr.email) {
+        setRecipientEmail(hr.email);
+      }
     } catch (err) {
       console.error("Error fetching resignation letters:", err);
       setError(err.response?.data?.message || "Failed to load resignation data.");
@@ -70,7 +75,8 @@ export default function EmployeeResignation() {
 
       const payload = {
         subject,
-        description
+        description,
+        recipient_email: recipientEmail
       };
 
       const res = await axios.post(
@@ -80,7 +86,7 @@ export default function EmployeeResignation() {
       );
 
       const sentToName = res.data.sent_to?.name || hrManager.name;
-      const sentToEmail = res.data.sent_to?.email || hrManager.email;
+      const sentToEmail = res.data.sent_to?.email || recipientEmail || hrManager.email;
       setSuccess(`Resignation email sent to ${sentToName} (${sentToEmail}) successfully!`);
       setSubject("");
       setDescription("");
@@ -256,10 +262,15 @@ export default function EmployeeResignation() {
                       {/* To Field */}
                       <div className="flex items-center gap-3 px-5 py-3">
                         <span className="text-slate-400 font-bold w-12 text-right">To:</span>
-                        <div className="flex-1 font-semibold text-slate-800 flex items-center gap-1.5">
-                          <span className="px-2 py-0.5 bg-purple-50 text-purple-600 rounded border border-purple-100 text-[11px] font-bold">
-                            {hrManager.name} &lt;{hrManager.email || "hr@company.com"}&gt;
-                          </span>
+                        <div className="flex-1 flex items-center">
+                          <input
+                            type="email"
+                            placeholder="HR/Recipient Email Address"
+                            value={recipientEmail}
+                            onChange={(e) => setRecipientEmail(e.target.value)}
+                            className="w-full max-w-md font-semibold text-slate-800 outline-none border border-slate-200 rounded px-2.5 py-1 text-xs focus:border-purple-400 focus:ring-1 focus:ring-purple-400 placeholder:text-slate-300 bg-transparent"
+                            required
+                          />
                         </div>
                       </div>
 

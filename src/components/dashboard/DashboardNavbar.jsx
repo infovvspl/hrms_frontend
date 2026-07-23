@@ -19,13 +19,7 @@ export default function DashboardNavbar({ collapsed, setCollapsed }) {
   const [toast, setToast] = useState(null);
 
   // Notifications State (with dynamic categories and read statuses)
-  const [notifications, setNotifications] = useState([
-    { id: 1, text: "Casual Leave request approved by Rahim Uddin.", time: "10 min ago", unread: true, category: "leave" },
-    { id: 2, text: "June 2026 payslip has been successfully generated.", time: "2 hours ago", unread: true, category: "payroll" },
-    { id: 3, text: "Geofence match: Punched in Bangalore Tech Park HQ.", time: "4 hours ago", unread: false, category: "punch" },
-    { id: 4, text: "HR: Code of conduct training must be completed today.", time: "1 day ago", unread: true, category: "action" },
-    { id: 5, text: "System maintenance scheduled for Sunday 2:00 AM.", time: "2 days ago", unread: false, category: "system" }
-  ]);
+  const [notifications, setNotifications] = useState([]);
 
   // Notifications Filter Category State
   const [activeFilter, setActiveFilter] = useState("all");
@@ -43,6 +37,48 @@ export default function DashboardNavbar({ collapsed, setCollapsed }) {
     ? modules.filter(m => m.name.toLowerCase().includes(searchQuery.toLowerCase()) || m.desc.toLowerCase().includes(searchQuery.toLowerCase()))
     : [];
 
+  const fetchNotifications = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      const res = await axios.get(
+        `${import.meta.env.VITE_SERVER_ADDRESS || "http://localhost:5000"}/api/notifications`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      if (res.data.success) {
+        const mapped = res.data.notifications.map(n => {
+          const created = new Date(n.created_at);
+          const diffMs = new Date() - created;
+          const diffMins = Math.floor(diffMs / 60000);
+          const diffHrs = Math.floor(diffMs / 3600000);
+          const diffDays = Math.floor(diffMs / 86400000);
+
+          let timeStr = "Just now";
+          if (diffDays > 0) {
+            timeStr = diffDays === 1 ? "1 day ago" : `${diffDays} days ago`;
+          } else if (diffHrs > 0) {
+            timeStr = diffHrs === 1 ? "1 hour ago" : `${diffHrs} hours ago`;
+          } else if (diffMins > 0) {
+            timeStr = diffMins === 1 ? "1 min ago" : `${diffMins} mins ago`;
+          }
+
+          return {
+            id: n.id,
+            text: n.text,
+            time: timeStr,
+            unread: n.unread,
+            category: n.category || "system"
+          };
+        });
+        setNotifications(mapped);
+      }
+    } catch (error) {
+      console.error("Error fetching notifications:", error);
+    }
+  };
+
   useEffect(() => {
     const loadEmployee = () => {
       try {
@@ -54,6 +90,10 @@ export default function DashboardNavbar({ collapsed, setCollapsed }) {
     };
 
     loadEmployee();
+    fetchNotifications();
+
+    // Poll notifications every 15 seconds
+    const interval = setInterval(fetchNotifications, 15000);
     
     // Set greeting based on time of day
     const hour = new Date().getHours();
@@ -62,7 +102,10 @@ export default function DashboardNavbar({ collapsed, setCollapsed }) {
     else setGreeting("Good Evening");
 
     window.addEventListener("employee-avatar-updated", loadEmployee);
-    return () => window.removeEventListener("employee-avatar-updated", loadEmployee);
+    return () => {
+      window.removeEventListener("employee-avatar-updated", loadEmployee);
+      clearInterval(interval);
+    };
   }, []);
 
   // Trigger a premium incoming toast notification 5 seconds after mount
@@ -70,7 +113,7 @@ export default function DashboardNavbar({ collapsed, setCollapsed }) {
     const timer = setTimeout(() => {
       setToast({
         id: 99,
-        text: "Incoming Notice: Company-wide Townhall meeting scheduled.",
+        text: "Welcome back! Check your notifications list for latest HR updates.",
         time: "Just now",
         category: "system"
       });
@@ -306,7 +349,19 @@ export default function DashboardNavbar({ collapsed, setCollapsed }) {
                 <span className="text-xs font-extrabold text-slate-800">Notifications</span>
                 {notifications.filter(n => n.unread).length > 0 && (
                   <button
-                    onClick={() => {
+                    onClick={async () => {
+                      try {
+                        const token = localStorage.getItem("token");
+                        if (token) {
+                          await axios.put(
+                            `${import.meta.env.VITE_SERVER_ADDRESS || "http://localhost:5000"}/api/notifications/mark-read`,
+                            {},
+                            { headers: { Authorization: `Bearer ${token}` } }
+                          );
+                        }
+                      } catch (err) {
+                        console.error("Error marking all read:", err);
+                      }
                       setNotifications(notifications.map(n => ({ ...n, unread: false })));
                     }}
                     className="text-[10px] text-indigo-600 hover:text-indigo-855 font-bold hover:underline"
@@ -347,7 +402,19 @@ export default function DashboardNavbar({ collapsed, setCollapsed }) {
                     return (
                       <div
                         key={n.id}
-                        onClick={() => {
+                        onClick={async () => {
+                          try {
+                            const token = localStorage.getItem("token");
+                            if (token && n.unread) {
+                              await axios.put(
+                                `${import.meta.env.VITE_SERVER_ADDRESS || "http://localhost:5000"}/api/notifications/${n.id}/read`,
+                                {},
+                                { headers: { Authorization: `Bearer ${token}` } }
+                              );
+                            }
+                          } catch (err) {
+                            console.error("Error marking notification read:", err);
+                          }
                           setNotifications(notifications.map(item => item.id === n.id ? { ...item, unread: false } : item));
                         }}
                         className={`p-3 text-xs text-left cursor-pointer transition-all flex items-start gap-3 ${style.border} ${style.bg} ${n.unread ? "bg-slate-50/50" : ""}`}
@@ -369,8 +436,19 @@ export default function DashboardNavbar({ collapsed, setCollapsed }) {
 
                         {/* Delete Button */}
                         <button
-                          onClick={(e) => {
+                          onClick={async (e) => {
                             e.stopPropagation();
+                            try {
+                              const token = localStorage.getItem("token");
+                              if (token) {
+                                await axios.delete(
+                                  `${import.meta.env.VITE_SERVER_ADDRESS || "http://localhost:5000"}/api/notifications/${n.id}`,
+                                  { headers: { Authorization: `Bearer ${token}` } }
+                                );
+                              }
+                            } catch (err) {
+                              console.error("Error deleting notification:", err);
+                            }
                             setNotifications(notifications.filter(item => item.id !== n.id));
                           }}
                           className="text-slate-350 hover:text-rose-500 font-black p-0.5 transition shrink-0"
