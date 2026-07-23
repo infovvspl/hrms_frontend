@@ -43,12 +43,9 @@ import {
   CartesianGrid,
   Legend
 } from "recharts";
-import Sidebar from "../components/sidebar/Sidebar";
+import DashboardLayout from "../layouts/DashboardLayout";
 
 export default function Dashboard() {
-  const [collapsed, setCollapsed] = useState(() => {
-    return localStorage.getItem("sidebar_collapsed") === "true";
-  });
   const [loading, setLoading] = useState(true);
 
   // Dynamic API lists
@@ -413,12 +410,8 @@ export default function Dashboard() {
   const displayPendingLeaves = pendingLeaves;
 
   return (
-    <div className="flex min-h-screen bg-slate-150">
-      {/* Sidebar */}
-      <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
-
-      {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-auto">
+    <DashboardLayout>
+      <div className="flex-1 flex flex-col min-w-0">
 
         {/* Dynamic Action Toasts */}
         <AnimatePresence>
@@ -871,6 +864,6 @@ export default function Dashboard() {
           background-color: #f1f5f9;
         }
       `}</style>
-    </div>
+    </DashboardLayout>
   );
 }

@@ -1,6 +1,5 @@
 import { useState, useRef, useCallback } from "react";
 import axios from "axios";
-import Sidebar from "../../components/sidebar/Sidebar";
 import DashboardLayout from "../../layouts/DashboardLayout";
 import {
   FileText,

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import axios from "axios";
 import { getCompanyInitial, getCompanyLogoSrc, getEmployeeAvatarSrc } from "../../utils/companyLogo";
 
@@ -38,7 +38,6 @@ export default function DynamicSidebar({ collapsed: propCollapsed, setCollapsed:
   const token = localStorage.getItem("token");
 
   const location = useLocation();
-  const navigate = useNavigate();
 
   const [permissions, setPermissions] = useState(new Set());
   const [loadingPerms, setLoadingPerms] = useState(role === "employee");
@@ -158,7 +157,7 @@ export default function DynamicSidebar({ collapsed: propCollapsed, setCollapsed:
     // DASHBOARDS
     // ----------------------------------------------------
     {
-      label: "Admin Dashboard",
+      label: "Dashboard",
       icon: LayoutDashboard,
       path: "/dashboard",
       requiredRole: "company"
@@ -244,7 +243,7 @@ export default function DynamicSidebar({ collapsed: propCollapsed, setCollapsed:
     // COMPANY SETUP
     // ----------------------------------------------------
     {
-      label: "Company Setup",
+      label: "Company",
       icon: Building2,
       id: "company",
       requiredRole: "company",
@@ -261,7 +260,7 @@ export default function DynamicSidebar({ collapsed: propCollapsed, setCollapsed:
     // ADMINISTRATION (Requires Permissions)
     // ----------------------------------------------------
     {
-      label: "Employees Admin",
+      label: "Employees",
       icon: Users,
       id: "employees",
       subItems: [
@@ -274,7 +273,7 @@ export default function DynamicSidebar({ collapsed: propCollapsed, setCollapsed:
       ]
     },
     {
-      label: "Attendance Admin",
+      label: "Attendance",
       icon: Clock,
       id: "attendance_admin",
       subItems: [
@@ -360,6 +359,8 @@ export default function DynamicSidebar({ collapsed: propCollapsed, setCollapsed:
     const activeItem = menuConfig.find(item => isItemActive(item) && item.subItems);
     if (activeItem) {
       setExpandedMenu(activeItem.id);
+    } else {
+      setExpandedMenu(null);
     }
   }, [location.pathname, collapsed]);
 
@@ -372,12 +373,28 @@ export default function DynamicSidebar({ collapsed: propCollapsed, setCollapsed:
       }`;
   };
 
-  const getParentClass = (isActive) => {
-    return `flex items-center ${collapsed ? "w-10 h-10 justify-center p-0" : "w-full justify-between gap-3 px-3 py-3"
-      } rounded-xl transition-all duration-300 group cursor-pointer ${isActive
+  const getParentClass = (isActive, isExpanded) => {
+    if (collapsed) {
+      return `flex items-center w-10 h-10 justify-center p-0 rounded-xl transition-all duration-300 group ${
+        isActive
+          ? "bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-lg"
+          : "text-slate-300 hover:bg-gradient-to-r hover:from-blue-500/20 hover:to-cyan-500/20 hover:text-white"
+      }`;
+    }
+
+    if (isExpanded) {
+      return `flex items-center w-full justify-between gap-3 px-3 py-3 rounded-xl transition-all duration-300 group cursor-pointer ${
+        isActive
+          ? "bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-lg"
+          : "text-slate-300 hover:bg-gradient-to-r hover:from-blue-500/20 hover:to-cyan-500/20 hover:text-white"
+      }`;
+    }
+
+    return `flex items-center w-full justify-between gap-3 px-3 py-3 rounded-xl transition-all duration-300 group cursor-pointer ${
+      isActive
         ? "bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-lg"
         : "text-slate-300 hover:bg-gradient-to-r hover:from-blue-500/20 hover:to-cyan-500/20 hover:text-white"
-      }`;
+    }`;
   };
 
   const subMenuLinkClass = ({ isActive }) =>
@@ -495,35 +512,36 @@ export default function DynamicSidebar({ collapsed: propCollapsed, setCollapsed:
           const Icon = item.icon;
           const isActive = isItemActive(item);
 
-          if (item.subItems) {
+          if (item.subItems && item.subItems.length > 0) {
+            const mainPath = item.subItems[0].path;
+            const dropdownSubItems = item.subItems.slice(1);
+
             return (
               <div key={item.id || index}>
-                <button
+                <NavLink
+                  to={mainPath}
                   onClick={() => {
                     if (!collapsed) {
-                      setExpandedMenu(prev => prev === item.id ? null : item.id);
-                    }
-                    if (item.subItems.length > 0) {
-                      navigate(item.subItems[0].path);
+                      setExpandedMenu(item.id);
                     }
                   }}
-                  className={getParentClass(isActive)}
+                  className={getParentClass(isActive, expandedMenu === item.id)}
                 >
                   <div className="flex items-center gap-3 min-w-0">
                     <Icon size={18} />
                     {!collapsed && <span className="truncate text-sm">{item.label}</span>}
                   </div>
 
-                  {!collapsed && (
+                  {!collapsed && dropdownSubItems.length > 0 && (
                     <span className="text-slate-400 group-hover:text-white transition duration-150">
                       {expandedMenu === item.id ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
                     </span>
                   )}
-                </button>
+                </NavLink>
 
-                {expandedMenu === item.id && !collapsed && (
+                {expandedMenu === item.id && !collapsed && dropdownSubItems.length > 0 && (
                   <div className="ml-10 mt-1 flex flex-col gap-1 text-sm">
-                    {item.subItems.map(sub => (
+                    {dropdownSubItems.map(sub => (
                       <NavLink key={sub.path} to={sub.path} className={subMenuLinkClass}>
                         {sub.label}
                       </NavLink>
