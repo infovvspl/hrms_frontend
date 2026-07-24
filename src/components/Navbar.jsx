@@ -1,96 +1,93 @@
-// Navbar.jsx
-
-import { Link } from "react-router-dom";
-import { ChevronDown } from "lucide-react";
+import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { ChevronDown, Menu, X } from "lucide-react";
 import Logo from "./Logo";
 
+const FEATURES_MENU = [
+  ["Employee Management", "/employee-management"],
+  ["Attendance Management", "/attendance-management"],
+  ["Leave Management", "/leave-management"],
+  ["Payroll Management", "/payroll-management"],
+  ["Recruitment Management", "/recruitment-management"],
+  ["Performance Management", "/performance-management"],
+  ["Asset Management", "/asset-management"],
+];
+
+const COMPANY_MENU = [
+  ["About Us", "/about"],
+  ["Contact Us", "/contact"],
+];
+
+const NAV_LINKS = [
+  ["Solutions", "/solutions"],
+  ["Pricing", "/pricing"],
+  ["Partners", "/partners"],
+];
+
 export default function Navbar() {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const location = useLocation();
+
+  const linkClass = "relative group text-slate-600 hover:text-blue-600 transition-colors text-[13.5px] font-semibold";
+  const underline = "absolute left-0 -bottom-0.5 h-[2px] w-0 bg-blue-500 group-hover:w-full transition-all duration-300 rounded-full";
+
   return (
-    <nav className="fixed top-0 left-0 w-full z-[9999] bg-white/80 backdrop-blur-md border-b border-gray-200/40 shadow-sm">
-      <div className="max-w-7xl mx-auto flex items-center justify-between px-6 lg:px-10 py-2">
+    <nav className="fixed top-0 left-0 w-full z-[9999] bg-white/90 backdrop-blur-md border-b border-slate-100 shadow-sm">
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-6 lg:px-10 h-16">
+
         {/* LOGO */}
-        <div className="flex items-center">
-          <div className="scale-[2.0] origin-left">
+        <Link to="/" className="flex items-center">
+          <div className="scale-[1.8] origin-left">
             <Logo />
           </div>
-        </div>
+        </Link>
 
-        {/* NAV LINKS */}
-        <ul className="hidden lg:flex items-center gap-7 text-[14px] font-semibold text-gray-800">
-          <Link
-            to="/"
-            className="relative group hover:text-blue-600 transition"
-          >
+        {/* NAV — Desktop */}
+        <ul className="hidden lg:flex items-center gap-8">
+          <Link to="/" className={linkClass}>
             Home
-            <span className="absolute left-0 -bottom-1 h-[2px] w-0 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
+            <span className={underline} />
           </Link>
 
-          {/* FEATURES */}
+          {/* Features dropdown */}
           <div className="relative group">
-            <div className="flex items-center gap-1 cursor-pointer hover:text-blue-600 transition">
-              Features <ChevronDown size={14} />
+            <div className="flex items-center gap-1 cursor-pointer text-slate-600 hover:text-blue-600 transition-colors text-[13.5px] font-semibold">
+              Features
+              <ChevronDown size={13} className="group-hover:rotate-180 transition-transform duration-200 mt-0.5" />
             </div>
-
-            <div className="absolute top-10 left-0 w-64 bg-white/90 backdrop-blur-xl border border-gray-200/50 rounded-2xl shadow-2xl p-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
-              {[
-                ["Employee Management", "/employee-management"],
-                ["Attendance Management", "/attendance-management"],
-                ["Leave Management", "/leave-management"],
-                ["Payroll Management", "/payroll-management"],
-                ["Recruitment Management", "/recruitment-management"],
-                ["Performance Management", "/performance-management"],
-                ["Asset Management", "/asset-management"],
-              ].map(([name, path], i) => (
+            <div className="absolute top-full left-0 mt-3 w-64 bg-white border border-slate-100 rounded-2xl shadow-xl p-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 origin-top scale-95 group-hover:scale-100">
+              {FEATURES_MENU.map(([name, path], i) => (
                 <Link
                   key={i}
                   to={path}
-                  className="block px-4 py-2.5 rounded-xl text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition text-sm"
+                  className="flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition-all text-sm font-medium"
                 >
+                  <span className="w-1.5 h-1.5 rounded-full bg-blue-200 group-hover:bg-blue-400" />
                   {name}
                 </Link>
               ))}
             </div>
           </div>
 
-          <Link
-            to="/solutions"
-            className="relative group hover:text-blue-600 transition"
-          >
-            Solutions
-            <span className="absolute left-0 -bottom-1 h-[2px] w-0 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
-          </Link>
+          {NAV_LINKS.map(([name, path]) => (
+            <Link key={name} to={path} className={linkClass}>
+              {name}
+              <span className={underline} />
+            </Link>
+          ))}
 
-          <Link
-            to="/pricing"
-            className="relative group hover:text-blue-600 transition"
-          >
-            Pricing
-            <span className="absolute left-0 -bottom-1 h-[2px] w-0 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
-          </Link>
-
-          <Link
-            to="/partners"
-            className="relative group hover:text-blue-600 transition"
-          >
-            Partners
-            <span className="absolute left-0 -bottom-1 h-[2px] w-0 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
-          </Link>
-
-          {/* COMPANY */}
+          {/* Company dropdown */}
           <div className="relative group">
-            <div className="flex items-center gap-1 cursor-pointer hover:text-blue-600 transition">
-              Company <ChevronDown size={14} />
+            <div className="flex items-center gap-1 cursor-pointer text-slate-600 hover:text-blue-600 transition-colors text-[13.5px] font-semibold">
+              Company
+              <ChevronDown size={13} className="group-hover:rotate-180 transition-transform duration-200 mt-0.5" />
             </div>
-
-            <div className="absolute top-10 left-0 w-52 bg-white/90 backdrop-blur-xl border border-gray-200/50 rounded-2xl shadow-2xl p-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
-              {[
-                ["About Us", "/about"],
-                ["Contact Us", "/contact"],
-              ].map(([name, path], i) => (
+            <div className="absolute top-full left-0 mt-3 w-48 bg-white border border-slate-100 rounded-2xl shadow-xl p-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 origin-top scale-95 group-hover:scale-100">
+              {COMPANY_MENU.map(([name, path], i) => (
                 <Link
                   key={i}
                   to={path}
-                  className="block px-4 py-2.5 rounded-xl text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition text-sm"
+                  className="block px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition-all text-sm font-medium"
                 >
                   {name}
                 </Link>
@@ -102,26 +99,53 @@ export default function Navbar() {
         {/* RIGHT BUTTONS */}
         <div className="hidden lg:flex items-center gap-3">
           <Link to="/login">
-            <button
-              className="px-4 py-1.5 rounded-xl text-sm font-semibold 
-    border border-gray-300 
-    bg-white/70 backdrop-blur-md
-    text-gray-700 hover:border-blue-500 hover:text-blue-600 transition"
-            >
+            <button className="px-5 py-2 rounded-xl text-sm font-semibold text-slate-700 border border-slate-200 bg-white hover:border-blue-300 hover:text-blue-600 transition-all duration-200">
               Sign In
             </button>
           </Link>
           <Link to="/demo-form">
-            <button
-              className="px-4 py-1.5 rounded-xl text-sm font-semibold text-white 
-            bg-gradient-to-r from-[#2563EB] to-[#38BDF8]
-            hover:scale-105 shadow-lg hover:shadow-blue-300/40 transition"
-            >
+            <button className="px-5 py-2 rounded-xl text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-100 hover:shadow-blue-200 hover:scale-[1.02] transition-all duration-200">
               Free Demo
             </button>
           </Link>
         </div>
+
+        {/* Mobile toggle */}
+        <button
+          className="lg:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100 transition"
+          onClick={() => setMobileOpen(!mobileOpen)}
+        >
+          {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+        </button>
       </div>
+
+      {/* Mobile menu */}
+      {mobileOpen && (
+        <div className="lg:hidden bg-white border-t border-slate-100 px-6 py-5 flex flex-col gap-1">
+          {[["Home", "/"], ["Solutions", "/solutions"], ["Pricing", "/pricing"], ["About", "/about"], ["Contact", "/contact"]].map(([name, path]) => (
+            <Link
+              key={path}
+              to={path}
+              onClick={() => setMobileOpen(false)}
+              className="py-2.5 px-2 text-slate-700 font-semibold text-sm hover:text-blue-600 rounded-lg hover:bg-blue-50 transition-all"
+            >
+              {name}
+            </Link>
+          ))}
+          <div className="border-t border-slate-100 mt-3 pt-4 flex flex-col gap-3">
+            <Link to="/login" onClick={() => setMobileOpen(false)}>
+              <button className="w-full py-3 rounded-xl border border-slate-200 text-slate-700 font-semibold text-sm hover:bg-slate-50 transition">
+                Sign In
+              </button>
+            </Link>
+            <Link to="/demo-form" onClick={() => setMobileOpen(false)}>
+              <button className="w-full py-3 rounded-xl bg-blue-600 text-white font-bold text-sm hover:bg-blue-700 transition shadow-md shadow-blue-100">
+                Free Demo
+              </button>
+            </Link>
+          </div>
+        </div>
+      )}
     </nav>
   );
 }

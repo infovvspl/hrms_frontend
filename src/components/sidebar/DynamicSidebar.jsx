@@ -375,26 +375,23 @@ export default function DynamicSidebar({ collapsed: propCollapsed, setCollapsed:
 
   const getParentClass = (isActive, isExpanded) => {
     if (collapsed) {
-      return `flex items-center w-10 h-10 justify-center p-0 rounded-xl transition-all duration-300 group ${
-        isActive
+      return `flex items-center w-10 h-10 justify-center p-0 rounded-xl transition-all duration-300 group ${isActive
           ? "bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-lg"
           : "text-slate-300 hover:bg-gradient-to-r hover:from-blue-500/20 hover:to-cyan-500/20 hover:text-white"
-      }`;
+        }`;
     }
 
     if (isExpanded) {
-      return `flex items-center w-full justify-between gap-3 px-3 py-3 rounded-xl transition-all duration-300 group cursor-pointer ${
-        isActive
+      return `flex items-center w-full justify-between gap-3 px-3 py-3 rounded-xl transition-all duration-300 group cursor-pointer ${isActive
           ? "bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-lg"
           : "text-slate-300 hover:bg-gradient-to-r hover:from-blue-500/20 hover:to-cyan-500/20 hover:text-white"
-      }`;
+        }`;
     }
 
-    return `flex items-center w-full justify-between gap-3 px-3 py-3 rounded-xl transition-all duration-300 group cursor-pointer ${
-      isActive
+    return `flex items-center w-full justify-between gap-3 px-3 py-3 rounded-xl transition-all duration-300 group cursor-pointer ${isActive
         ? "bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-lg"
         : "text-slate-300 hover:bg-gradient-to-r hover:from-blue-500/20 hover:to-cyan-500/20 hover:text-white"
-    }`;
+      }`;
   };
 
   const subMenuLinkClass = ({ isActive }) =>
