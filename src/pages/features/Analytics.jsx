@@ -1,130 +1,245 @@
 import { motion } from "framer-motion";
+import { BarChart3, PieChart, TrendingUp, Download, ArrowRight, Play, CheckCircle } from "lucide-react";
+import { Link } from "react-router-dom";
 
-const analyticsFeatures = [
-  {
-    id: 1,
-    text: "Real-time HR dashboards",
-    icon: "📈",
-  },
-  {
-    id: 2,
-    text: "Attendance analytics",
-    icon: "📅",
-  },
-  {
-    id: 3,
-    text: "Performance insights",
-    icon: "🚀",
-  },
-  {
-    id: 4,
-    text: "Department-wise reports",
-    icon: "🏢",
-  },
-];
+const fadeUp = (delay = 0) => ({
+  initial: { opacity: 0, y: 28 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: "-60px" },
+  transition: { duration: 0.55, delay, ease: [0.22, 1, 0.36, 1] },
+});
 
 export default function Analytics() {
   return (
-    <div className="min-h-screen bg-[#F7FAFF] py-24 relative overflow-hidden">
-      {/* BACKGROUND EFFECTS */}
-      <div className="absolute top-[-120px] left-[-120px] w-[420px] h-[420px] bg-cyan-300/30 blur-3xl rounded-full" />
+    <div className="bg-white min-h-screen font-sans overflow-x-hidden">
+      
+      {/* ── HERO ── */}
+      <section className="relative overflow-hidden bg-white pt-24 pb-16 lg:pt-32 lg:pb-24">
+        {/* Subtle top gradient band */}
+        <div className="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-br from-indigo-50 via-indigo-50/40 to-white pointer-events-none" />
+        
+        {/* Decorative circles */}
+        <div className="absolute top-10 right-[-80px] w-[480px] h-[480px] rounded-full border border-indigo-100/70 pointer-events-none" />
+        <div className="absolute top-32 right-[-20px] w-[320px] h-[320px] rounded-full border border-indigo-100/40 pointer-events-none" />
+        
+        {/* Dot grid */}
+        <div
+          className="absolute top-0 right-0 w-[400px] h-[400px] opacity-30 pointer-events-none"
+          style={{
+            backgroundImage: "radial-gradient(circle, #94a3b8 1px, transparent 1px)",
+            backgroundSize: "24px 24px",
+          }}
+        />
 
-      <div className="absolute bottom-[-120px] right-[-120px] w-[420px] h-[420px] bg-indigo-300/30 blur-3xl rounded-full" />
-
-      <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
-        {/* LEFT CONTENT */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          {/* BADGE */}
-          <span className="inline-flex items-center px-4 py-2 rounded-full bg-cyan-50 text-cyan-700 text-sm font-semibold border border-cyan-100">
-            📊 Analytics Module
-          </span>
-
-          {/* TITLE */}
-          <h1 className="text-5xl font-extrabold text-gray-900 mt-6 leading-tight">
-            Advanced HR Analytics
-          </h1>
-
-          {/* DESCRIPTION */}
-          <p className="mt-5 text-lg text-gray-600 leading-relaxed">
-            Gain powerful workforce insights with real-time dashboards, employee
-            performance analytics, attendance reports, and smart HR metrics.
-          </p>
-
-          {/* FEATURE CARDS */}
-          <div className="mt-10 space-y-4">
-            {analyticsFeatures.map((item) => (
+        <div className="relative max-w-7xl mx-auto px-6 lg:px-10">
+          <div className="flex flex-col lg:flex-row items-center gap-16">
+            
+            {/* Left side text */}
+            <div className="lg:w-1/2 z-10">
               <motion.div
-                key={item.id}
-                whileHover={{ scale: 1.03 }}
-                className="flex items-center gap-4 p-5 rounded-2xl bg-white shadow-sm border border-gray-100 hover:shadow-md transition"
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-600 text-xs font-semibold tracking-wide mb-8"
               >
-                <span className="text-2xl">{item.icon}</span>
+                <span className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
+                HR Analytics
+              </motion.div>
 
-                <p className="text-gray-700 font-medium">{item.text}</p>
+              <motion.h1
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="text-4xl md:text-5xl lg:text-[3.5rem] font-black text-slate-900 leading-[1.07] tracking-tight mb-6"
+              >
+                Turn your HR data into actionable insights.
+              </motion.h1>
+
+              <motion.p
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="text-lg text-slate-500 leading-relaxed max-w-lg mb-10"
+              >
+                Stop guessing and start knowing. Access powerful, real-time analytics to understand your workforce, improve retention, and drive business growth.
+              </motion.p>
+
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="flex flex-wrap gap-4 items-center"
+              >
+                <Link to="/demo-form">
+                  <button className="group flex items-center gap-2 px-7 py-3.5 rounded-xl bg-indigo-600 text-white text-sm font-bold shadow-lg shadow-indigo-200 hover:bg-indigo-700 hover:shadow-indigo-300 hover:scale-[1.02] transition-all duration-300">
+                    Get Free Demo
+                    <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
+                  </button>
+                </Link>
+                <Link to="/pricing">
+                  <button className="group flex items-center gap-2 px-7 py-3.5 rounded-xl border border-slate-200 bg-white text-slate-700 text-sm font-semibold hover:border-indigo-300 hover:text-indigo-600 hover:shadow-md transition-all duration-300">
+                    <Play size={13} className="fill-slate-500 group-hover:fill-indigo-500 transition-colors" />
+                    View Pricing
+                  </button>
+                </Link>
+              </motion.div>
+            </div>
+
+            {/* Right side Image */}
+            <motion.div
+              initial={{ opacity: 0, x: 48, scale: 0.96 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              transition={{ duration: 0.85, delay: 0.15 }}
+              className="lg:w-1/2 w-full relative"
+            >
+              <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-[80%] h-16 bg-indigo-200 blur-[50px] rounded-full opacity-60" />
+              <div className="relative rounded-2xl shadow-[0_32px_80px_rgba(79,70,229,0.12),0_8px_32px_rgba(0,0,0,0.08)] overflow-hidden border border-slate-200/80 bg-white">
+                <div className="flex items-center gap-2 px-4 py-3 bg-slate-50 border-b border-slate-100">
+                   <span className="w-3 h-3 rounded-full bg-red-400" />
+                   <span className="w-3 h-3 rounded-full bg-yellow-400" />
+                   <span className="w-3 h-3 rounded-full bg-green-400" />
+                </div>
+                <img 
+                  src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
+                  alt="HR Analytics Dashboards" 
+                  className="w-full h-auto object-cover"
+                />
+              </div>
+            </motion.div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ── CORE FEATURES GRID ── */}
+      <section className="py-24 bg-white relative">
+        <div className="absolute top-1/2 left-0 w-[400px] h-[400px] bg-indigo-50/50 rounded-full blur-[100px] pointer-events-none -translate-y-1/2" />
+        <div className="max-w-7xl mx-auto px-6 lg:px-10 relative">
+          
+          <motion.div {...fadeUp()} className="text-center max-w-2xl mx-auto mb-20">
+            <h2 className="text-4xl font-black text-slate-900 tracking-tight mb-5">Data-driven HR made simple</h2>
+            <p className="text-lg text-slate-500 leading-relaxed">Beautiful dashboards and comprehensive reports that give you total visibility into your organization.</p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-7">
+            {[
+              { icon: BarChart3, title: "Real-time Dashboards", desc: "Track headcount, diversity metrics, turnover rates, and attendance across the org in real-time." },
+              { icon: PieChart, title: "Departmental Insights", desc: "Drill down into specific branches. Compare performance and retention across different segments." },
+              { icon: TrendingUp, title: "Predictive Analytics", desc: "Identify flight risks early. Analyze engagement and performance data to predict employee turnover." },
+              { icon: Download, title: "Custom Report Builder", desc: "Create bespoke reports by combining data points. Export to CSV, Excel, or PDF instantly." },
+            ].map((feature, i) => (
+              <motion.div
+                key={i}
+                {...fadeUp(i * 0.1)}
+                whileHover={{ y: -6 }}
+                className="group bg-white rounded-3xl border border-slate-100 p-7 shadow-sm hover:shadow-xl hover:border-indigo-200 transition-all duration-300 relative overflow-hidden"
+              >
+                <div className="absolute top-0 left-0 right-0 h-[3px] bg-indigo-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-indigo-50 mb-5 group-hover:scale-110 transition-transform duration-300">
+                  <feature.icon size={21} className="text-indigo-600" />
+                </div>
+                <h3 className="text-lg font-bold text-slate-900 mb-2.5">{feature.title}</h3>
+                <p className="text-slate-500 text-sm leading-relaxed">{feature.desc}</p>
               </motion.div>
             ))}
           </div>
-        </motion.div>
 
-        {/* RIGHT DASHBOARD CARD */}
-        <motion.div
-          initial={{ opacity: 0, x: 40 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.7 }}
-          className="relative flex justify-center"
-        >
-          {/* GLOW */}
-          <div className="absolute w-[85%] h-[85%] bg-cyan-400/20 blur-[120px] rounded-full" />
+        </div>
+      </section>
 
-          {/* MAIN CARD */}
-          <div className="relative bg-white border border-gray-100 shadow-2xl rounded-[30px] p-5 w-full max-w-md">
-            {/* HEADER */}
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex gap-2">
-                <span className="w-3 h-3 bg-red-400 rounded-full"></span>
-
-                <span className="w-3 h-3 bg-yellow-400 rounded-full"></span>
-
-                <span className="w-3 h-3 bg-green-400 rounded-full"></span>
-              </div>
-
-              <span className="text-xs text-gray-400">Analytics Dashboard</span>
+      {/* ── ALTERNATING BLOCKS ── */}
+      <section className="py-24 bg-slate-50 border-t border-slate-100 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 lg:px-10 space-y-32">
+          
+          {/* Block 1: Text Left, Image Right */}
+          <div className="flex flex-col lg:flex-row items-center gap-16">
+            <div className="lg:w-1/2">
+              <motion.h2 {...fadeUp()} className="text-3xl lg:text-4xl font-black text-slate-900 mb-6 tracking-tight">Automate Your MIS Reporting</motion.h2>
+              <motion.p {...fadeUp(0.1)} className="text-lg text-slate-500 leading-relaxed mb-8">
+                Tired of spending days building monthly HR reports for management? Zenova generates comprehensive MIS reports automatically, ready for your next board meeting.
+              </motion.p>
+              <ul className="space-y-4">
+                {[
+                  "Scheduled report delivery via email",
+                  "Pre-built templates for attrition and hiring",
+                  "Visual charts ready for presentations"
+                ].map((text, i) => (
+                  <motion.li key={i} {...fadeUp(0.2 + (i * 0.1))} className="flex items-center gap-3">
+                    <CheckCircle className="text-indigo-500 w-5 h-5 shrink-0" />
+                    <span className="text-slate-700 font-medium">{text}</span>
+                  </motion.li>
+                ))}
+              </ul>
             </div>
-
-            {/* IMAGE */}
-            <img
-              src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80"
-              alt="Analytics Dashboard"
-              className="rounded-2xl w-full h-[320px] object-cover"
-            />
-
-            {/* STATS */}
-            <div className="mt-5 grid grid-cols-3 gap-3 text-center">
-              <div className="bg-cyan-50 rounded-xl p-3">
-                <p className="text-xs text-gray-500">Reports</p>
-
-                <p className="font-bold text-cyan-700">248</p>
-              </div>
-
-              <div className="bg-blue-50 rounded-xl p-3">
-                <p className="text-xs text-gray-500">Employees</p>
-
-                <p className="font-bold text-blue-700">540</p>
-              </div>
-
-              <div className="bg-indigo-50 rounded-xl p-3">
-                <p className="text-xs text-gray-500">Growth</p>
-
-                <p className="font-bold text-indigo-700">+28%</p>
-              </div>
-            </div>
+            <motion.div 
+              {...fadeUp(0.3)}
+              className="lg:w-1/2 relative"
+            >
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-indigo-200/50 blur-[60px] rounded-full pointer-events-none" />
+              <img 
+                src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
+                alt="MIS Reports" 
+                className="relative rounded-[2rem] shadow-2xl border border-slate-200/60 object-cover w-full h-auto"
+              />
+            </motion.div>
           </div>
-        </motion.div>
-      </div>
+
+          {/* Block 2: Image Left, Text Right */}
+          <div className="flex flex-col lg:flex-row-reverse items-center gap-16">
+            <div className="lg:w-1/2">
+              <motion.h2 {...fadeUp()} className="text-3xl lg:text-4xl font-black text-slate-900 mb-6 tracking-tight">Compensation & Pay Equity Analysis</motion.h2>
+              <motion.p {...fadeUp(0.1)} className="text-lg text-slate-500 leading-relaxed mb-8">
+                Ensure fair compensation across your organization. Analyze salary distributions across departments, genders, and roles to identify disparities and maintain internal equity.
+              </motion.p>
+              <ul className="space-y-4">
+                {[
+                  "Identify pay gaps automatically",
+                  "Benchmark salaries against industry standards",
+                  "Forecast increment budgets easily"
+                ].map((text, i) => (
+                  <motion.li key={i} {...fadeUp(0.2 + (i * 0.1))} className="flex items-center gap-3">
+                    <CheckCircle className="text-indigo-500 w-5 h-5 shrink-0" />
+                    <span className="text-slate-700 font-medium">{text}</span>
+                  </motion.li>
+                ))}
+              </ul>
+            </div>
+            <motion.div 
+              {...fadeUp(0.3)}
+              className="lg:w-1/2 relative"
+            >
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-indigo-200/50 blur-[60px] rounded-full pointer-events-none" />
+              <img 
+                src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
+                alt="Data analysis" 
+                className="relative rounded-[2rem] shadow-2xl border border-slate-200/60 object-cover w-full h-auto"
+              />
+            </motion.div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* ── BOTTOM CTA ── */}
+      <section className="relative overflow-hidden bg-white py-24 border-t border-slate-100">
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-indigo-50 rounded-full blur-[100px] pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-indigo-50/50 rounded-full blur-[100px] pointer-events-none" />
+        
+        <div className="max-w-4xl mx-auto px-6 lg:px-10 text-center relative">
+          <motion.h2 {...fadeUp()} className="text-4xl md:text-5xl font-black text-slate-900 mb-6 tracking-tight">
+            Ready to become data-driven?
+          </motion.h2>
+          <motion.p {...fadeUp(0.1)} className="text-xl text-slate-500 mb-10">
+            Join hundreds of companies that use Zenova to make better decisions about their workforce.
+          </motion.p>
+          <motion.div {...fadeUp(0.2)}>
+            <Link to="/demo-form" className="inline-flex items-center gap-2 px-8 py-4 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 hover:scale-[1.02] transition-all duration-300 shadow-xl shadow-indigo-200">
+              Get Started Now <ArrowRight size={18} />
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+      
     </div>
   );
 }
